@@ -43,7 +43,9 @@ public class GrafoDirigido<T> implements InterfazGrafo<T>{
 
 	@Override
 	public void insertarArista(T i, T j, double peso) {
-		
+		if(!existeVertice(i)) {
+			
+		}
 	}
 
 	@Override
