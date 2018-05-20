@@ -1,9 +1,9 @@
 package grafos;
 
-public class Puntero<T> {
+public class Arista<T> {
 	private T destino;
 	private double peso;
-	public Puntero(T destino, double peso) {
+	public Arista(T destino, double peso) {
 		this.destino= destino;
 		this.peso= peso;
 	}
