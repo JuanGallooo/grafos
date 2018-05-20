@@ -1,6 +1,8 @@
 package nuevoGrafos;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class GrafoDirigido<T> {
 
@@ -16,7 +18,7 @@ public class GrafoDirigido<T> {
 	this.aristas = new HashMap<Object, Arista<T>>();
 	for(Vertice<T> v : vertices )
 	    {
-		this.vertices.put(v.getElemento().toString().hashCode(), v);
+		this.vertices.put(v.getElemento().toString(), v);
 	    }
     }
 	public boolean insertarArista(String v1, String v2, int peso) {
@@ -36,7 +38,7 @@ public class GrafoDirigido<T> {
 		return true;
 	}
 	public boolean insertarVertice(Vertice<T> vertice) {
-		Vertice<T> actual = vertices.get(vertice.getElemento().toString().hashCode());
+		Vertice<T> actual = vertices.get(vertice.getElemento().toString());
 		if (actual != null) { // Ya existe el vertice
 			return false;
 		}
@@ -76,5 +78,50 @@ public class GrafoDirigido<T> {
 	}
 	public void setAristas(HashMap<Object, Arista<T>> aristas) {
 		this.aristas = aristas;
+	}
+	//BFS
+	public void bfs(String s){
+		Queue<Vertice<T>> queue = new LinkedList<Vertice<T>>();
+		queue.add(vertices.get(s));
+//		printNode(this.rootNode);
+		vertices.get(s).setVisitado(true);
+		while(!queue.isEmpty()){
+			Vertice<T> node = (Vertice<T>)queue.remove();
+			nonlocal Vertice<T> child=null;
+			node.getAristas().forEach((k, v) -> {
+				child= node.getAristas().get(k).getDestino();
+				child.setVisitado(true);
+//				printNode(child);
+				queue.add(child);
+		    });
+		}
+		limpiarCadaVertice();
+	}
+
+//	public void dfs() {
+//		// DFS uses Stack data structure
+//		Stack stack = new Stack();
+//		stack.push(this.rootNode);
+//		rootNode.visited=true;
+//		printNode(rootNode);
+//		while(!stack.isEmpty()) {
+//			Node node = (Node)s.peek();
+//			Node child = getUnvisitedChildNode(n);
+//			if(child != null) {
+//				child.visited = true;
+//				printNode(child);
+//				s.push(child);
+//			}
+//			else {
+//				s.pop();
+//			}
+//		}
+//		// Clear visited property of nodes
+//		clearNodes();
+//	}
+	public void limpiarCadaVertice() {
+		vertices.forEach((k, v) -> {
+	        	   vertices.get(k).setVisitado(false);;
+	    });
 	}
 }
