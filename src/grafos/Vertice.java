@@ -2,12 +2,12 @@ package grafos;
 
 public class Vertice<T> {
 	private T elemento;
-	private Puntero<T>[] aristas;
+	private Arista<T>[] aristas;
 	
 	public Vertice(T elemento, int numAristas) {
 		super();
 		this.elemento = elemento;
-		this.aristas = new Puntero[numAristas];
+		this.aristas = new Arista[numAristas];
 	}
 	public T getElemento() {
 		return elemento;
@@ -15,10 +15,10 @@ public class Vertice<T> {
 	public void setElemento(T elemento) {
 		this.elemento = elemento;
 	}
-	public Puntero<T>[] getAristas() {
+	public Arista<T>[] getAristas() {
 		return aristas;
 	}
-	public void setAristas(Puntero<T>[] aristas) {
+	public void setAristas(Arista<T>[] aristas) {
 		this.aristas = aristas;
 	}
 	public void agregarArista(T elemento,double peso) {
