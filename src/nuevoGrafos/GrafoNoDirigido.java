@@ -25,4 +25,9 @@ public class GrafoNoDirigido<T> extends GrafoDirigido<T>{
 		getAristas().put(nuevaArista.hashCode(), nuevaArista);
 		return true;
 	}
+	@Override
+	public Arista<T> eliminarArista(String referencia, Arista<T> arista) {
+		((AristaNoDirigida<T>) arista).getReferencia().getAristas().remove(arista.hashCode());
+		return this.getAristas().remove(arista.hashCode());
+	}
 }

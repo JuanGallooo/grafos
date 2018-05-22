@@ -23,4 +23,7 @@ public class Arista<T> {
 	public void setPeso(double peso) {
 		this.peso = peso;
 	}
+    public boolean tiene(Vertice<T> vertex){
+        return destino.compareTo(vertex) == 0;
+    }
 }

@@ -39,4 +39,11 @@ public class Vertice<T> {
 	public void setVisitado(boolean visitado) {
 		this.visitado = visitado;
 	}
+	@Override
+	public String toString() {
+		return elemento.toString();
+	}
+	public int compareTo(Vertice<T> vertice) {
+		return 0;
+	}
 }
