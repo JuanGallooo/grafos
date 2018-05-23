@@ -1,19 +1,14 @@
 package grafos;
-
+import java.util.HashMap;
 public class Vertice<T> {
+	private boolean visitado;
 	private T elemento;
-	private Arista<T>[] aristas;
-	private int posicion;
+    private HashMap<Object, Arista<T>> aristas;
+	
 	public Vertice(T elemento, int numAristas) {
 		super();
+		visitado= false;
 		this.elemento = elemento;
-		this.aristas = new Arista[numAristas];
-	}
-	public int getPosicion() {
-		return posicion;
-	}
-	public void setPosicion(int posicion) {
-		this.posicion = posicion;
 	}
 	public T getElemento() {
 		return elemento;
@@ -21,16 +16,34 @@ public class Vertice<T> {
 	public void setElemento(T elemento) {
 		this.elemento = elemento;
 	}
-	public Arista<T>[] getAristas() {
+	public boolean insertarArista(Arista<T> arista) {
+		Arista<T> actual = aristas.get(arista.getPeso());
+		if (actual != null){ // Ya existe la arista
+			return false;
+		}
+		aristas.put(arista.hashCode(), arista);
+		return true;
+	}
+	public Arista<T> eliminarArista(Arista<T> arista){
+		return aristas.remove(arista.hashCode());
+	}
+	public HashMap<Object, Arista<T>> getAristas() {
 		return aristas;
 	}
-	public void setAristas(Arista<T>[] aristas) {
+	public void setAristas(HashMap<Object, Arista<T>> aristas) {
 		this.aristas = aristas;
 	}
-	public void agregarArista(T elemento,double peso) {
-		
+	public boolean isVisitado() {
+		return visitado;
 	}
-	public int getNumeroAristas() {
-		return aristas.length;
+	public void setVisitado(boolean visitado) {
+		this.visitado = visitado;
+	}
+	@Override
+	public String toString() {
+		return elemento.toString();
+	}
+	public int compareTo(Vertice<T> vertice) {
+		return 0;
 	}
 }
