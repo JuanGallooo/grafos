@@ -3,11 +3,17 @@ package grafos;
 public class Vertice<T> {
 	private T elemento;
 	private Arista<T>[] aristas;
-	
+	private int posicion;
 	public Vertice(T elemento, int numAristas) {
 		super();
 		this.elemento = elemento;
 		this.aristas = new Arista[numAristas];
+	}
+	public int getPosicion() {
+		return posicion;
+	}
+	public void setPosicion(int posicion) {
+		this.posicion = posicion;
 	}
 	public T getElemento() {
 		return elemento;

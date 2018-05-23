@@ -1,12 +1,15 @@
 package grafos;
 
-public class GrafoMatriz {
+public class GrafoMatriz<T> {
 	
 	private int matriz[][];
 	private int numeroVertices;
+	private Vertice<T>[] listaVertices;
 	
-	public GrafoMatriz(int numVertices) {
+	
+	public GrafoMatriz(int numVertices, Vertice<T>[] lista){
 		// TODO Auto-generated constructor stub
+		listaVertices = lista;
 		numeroVertices = numVertices;
 		matriz =  new int[numVertices][numVertices];
         for(int i=0; i< numeroVertices; i++){
@@ -15,8 +18,21 @@ public class GrafoMatriz {
             }            
         }
     }
+	
+	public void insertarArista(T elemento1, T elemento){
+ 
 	}
 	
-	public void insertar
-
+	public int buscarIndiceMatriz(T elemento){
+		boolean encontro = false;
+		int numEncontrado = 0;
+	     for(int i=0; i< numeroVertices && !encontro; i++){
+	    	 if(elemento.equals(listaVertices[i])){
+	    		 encontro = true;
+	    		 numEncontro = i;
+	    	 }
+	     }
+	     
+	     
+	}
 }
