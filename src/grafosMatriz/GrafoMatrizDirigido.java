@@ -1,15 +1,14 @@
-package grafos;
+package grafosMatriz;
 
 import java.util.ArrayList;
 
-public class GrafoMatrizNoDirigido<T> {
-	
+public class GrafoMatrizDirigido<T> {
 	private int matriz[][];
 	private int numeroVertices;
 	private Vertice<T>[] listaVertices;
 	
 	
-	public GrafoMatrizNoDirigido(int numVertices, Vertice<T>[] lista){
+	public GrafoMatrizDirigido(int numVertices, Vertice<T>[] lista){
 		// TODO Auto-generated constructor stub
 		listaVertices = lista;
 		numeroVertices = numVertices;
@@ -64,16 +63,7 @@ public class GrafoMatrizNoDirigido<T> {
 		return null;
 	}
 	
-	public ArrayList<Vertice<T>> kruskal(Arista<T>[] aristas){
-		return null;
-	}
-	
-	public ArrayList<Vertice<T>> dijkstra(Vertice<T> inicio, Vertice<T> fin){
-		return null;
-	}
-	
 	public int[][] floydWarshall (int[][] matrizPeso){
 		return null;
 	}
-	
 }

@@ -1,4 +1,4 @@
-package grafos;
+package grafosMatriz;
 
 public interface InterfazGrafo<T> {
 	int numVertices();

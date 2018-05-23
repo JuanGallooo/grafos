@@ -141,10 +141,10 @@ public class GrafoDirigido<T> {
 	    });
 	}
     public void minimumSpaningTree(){
-        PriorityQueue<Arista<T>,T> all = new PriorityQueue<>();
-        aristas.forEach((k, v) -> {
-        	all.add(aristas.get(k));
-        });
+//        PriorityQueue<Arista<T>,T> all = new PriorityQueue<>();
+//        aristas.forEach((k, v) -> {
+//        	all.add(aristas.get(k));
+//        });
     }
     public Arista<T> prim(String start,String end){
 //        PriorityQueue<Arista<T>,Double> queue = new PriorityQueue<>();

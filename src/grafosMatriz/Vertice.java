@@ -1,4 +1,4 @@
-package grafos;
+package grafosMatriz;
 import java.util.HashMap;
 public class Vertice<T> {
 	private boolean visitado;

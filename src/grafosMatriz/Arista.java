@@ -1,4 +1,4 @@
-package grafos;
+package grafosMatriz;
 
 public class Arista<T> {
 	private Vertice<T> destino;
