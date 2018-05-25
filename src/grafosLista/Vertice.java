@@ -1,5 +1,6 @@
-package nuevoGrafos;
+package grafosLista;
 import java.util.HashMap;
+import java.util.Iterator;
 public class Vertice<T> {
 	private boolean visitado;
 	private T elemento;
@@ -7,6 +8,7 @@ public class Vertice<T> {
 	
 	public Vertice(T elemento, int numAristas) {
 		super();
+		aristas=new HashMap<Object, Arista<T>>();
 		visitado= false;
 		this.elemento = elemento;
 	}
@@ -45,5 +47,16 @@ public class Vertice<T> {
 	}
 	public int compareTo(Vertice<T> vertice) {
 		return 0;
+	}
+	public void eliminarDestino(String elemento) {
+		Iterator<Object> iterador= aristas.keySet().iterator();
+		while (iterador.hasNext()) {
+			Object k=iterador.next();
+			if(aristas.get(k).getDestino().getElemento().toString().equals(elemento)) {
+	        	   aristas.remove(k);
+	        	   iterador= aristas.keySet().iterator();
+	         }
+		}
+		
 	}
 }

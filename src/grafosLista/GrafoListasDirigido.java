@@ -1,24 +1,21 @@
-package nuevoGrafos;
+package grafosLista;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack;
 
-public class GrafoDirigido<T> {
+public class GrafoListasDirigido<T> {
 
 	private HashMap<Object, Vertice<T>> vertices;
 	private HashMap<Object, Arista<T>> aristas;
-
-	public GrafoDirigido(){
+	private Iterator<Object> iterador;
+	public GrafoListasDirigido(){
 		this.vertices = new HashMap<Object, Vertice<T>>();
 		this.aristas = new HashMap<Object, Arista<T>>();
 	}
-    public GrafoDirigido(ArrayList<Vertice<T>> vertices){
+    public GrafoListasDirigido(ArrayList<Vertice<T>> vertices){
 	this.vertices = new HashMap<Object, Vertice<T>>();
 	this.aristas = new HashMap<Object, Arista<T>>();
 	for(Vertice<T> v : vertices )
@@ -58,21 +55,32 @@ public class GrafoDirigido<T> {
 		return aristas.containsKey(arista.hashCode());
 	}
 	public Arista<T> eliminarArista(String referencia,Arista<T> arista) {
-		vertices.forEach((k, v) -> {
+		iterador= vertices.keySet().iterator();
+		while (iterador.hasNext()) {
+			String k= (String) iterador.next();
 			if(vertices.get(k).toString().equals(referencia) && vertices.get(k).getAristas().containsKey(arista.hashCode())){
 				vertices.get(k).getAristas().remove(arista.hashCode());
 			}
-	    });
+		}
 		return this.aristas.remove(arista.hashCode());
 	}
 	public Vertice<T> eliminarVertice(String vertice) {
-		aristas.forEach((k, v) -> {
-           if(aristas.get(k).getDestino().getElemento().toString().equals(vertice)) {
-        	   aristas.remove(k);
-           }
-        });
-		return this.vertices.remove(vertices.get(vertice));
+		iterador= aristas.keySet().iterator();
+		while (iterador.hasNext()) {
+			Object k=iterador.next();
+			if(aristas.get(k).getDestino().getElemento().toString().equals(vertice)) {
+	        	   aristas.remove(k);
+	        	   iterador= aristas.keySet().iterator();
+	           }
+		}
+		iterador= vertices.keySet().iterator();
+		while (iterador.hasNext()) {
+			String k= (String) iterador.next();
+			vertices.get(k).eliminarDestino(vertice);
+		}
+		return this.vertices.remove(vertices.get(vertice).toString());
 	}
+	//Consultar
     public Vertice<T> getVertice(String etiqueta){
 	    return this.vertices.get(etiqueta);
     }
@@ -96,15 +104,17 @@ public class GrafoDirigido<T> {
 		retorno.add(vertices.get(s));
 		vertices.get(s).setVisitado(true);
 		while(!queue.isEmpty()){
-			Vertice<T> node = (Vertice<T>)queue.remove();
+			Vertice<T> node = (Vertice<T>)queue.poll();
 			Vertice<T> child=null;		
-			Iterator it = node.getAristas().entrySet().iterator();
-			while (it.hasNext()) {			
-			Map.Entry e = (Map.Entry)it.next();
+			Iterator it = node.getAristas().keySet().iterator();
+			while (it.hasNext()) {	
+			Object e = it.next();
+			child= node.getAristas().get(e).getDestino();
+			if(!child.isVisitado()) {
 			retorno.add(child);
-			child= node.getAristas().get(e.getKey()).getDestino();
 			child.setVisitado(true);
 			queue.add(child);
+			}
 			}
 		}
 		limpiarCadaVertice();
@@ -120,10 +130,11 @@ public class GrafoDirigido<T> {
 		while (!stack.isEmpty()) {
 			Vertice<T> node = (Vertice<T>) stack.peek();
 			Vertice<T> child = null;
-			Iterator it = node.getAristas().entrySet().iterator();
+			Iterator it = node.getAristas().keySet().iterator();
 			while (it.hasNext()) {
-				Map.Entry e = (Map.Entry) it.next();
-				if (child != null) {
+				Object e = it.next();
+				child= node.getAristas().get(e).getDestino();
+				if (!child.isVisitado()) {
 					child.setVisitado(true);
 					retorno.add(child);
 					stack.push(child);
@@ -141,42 +152,9 @@ public class GrafoDirigido<T> {
 	    });
 	}
     public void minimumSpaningTree(){
-//        PriorityQueue<Arista<T>,T> all = new PriorityQueue<>();
-//        aristas.forEach((k, v) -> {
-//        	all.add(aristas.get(k));
-//        });
+        PriorityQueue<Arista<T>,T> all = new PriorityQueue<>();
+        aristas.forEach((k, v) -> {
+        	all.add(aristas.get(k));
+        });
     }
-    public Arista<T> prim(String start,String end){
-//        PriorityQueue<Arista<T>,Double> queue = new PriorityQueue<>();
-//        
-//        List<Vertice<T>> colored = new ArrayList<Vertice<T>>();
-//        
-//        queue.add(new Arista<T>(vertices.get(start),0));
-//        
-//        while(!queue.isEmpty()) {
-//        	Arista<T> local = queue.remove();
-//            colored.add(local.getDestino());
-//
-//            if(local.getDestino().compareTo(vertices.get(end)) == 0 ){
-//                return local;
-//            }
-//            aristas.forEach((k, v) -> {
-//            	if ( aristas.get(k).getDestino().compareTo(local.getDestino())==0 
-//            			&& !colored.contains(item.next(local.getEnd()))) {
-//                    Road<V> next = new Road<V>(local.getStart(), item.next(local.getEnd()),
-//                            local.getDistance() + item.getDistance(),
-//                            local.getTime() + item.getTime(),
-//                            local.getCost() + item.getCost());
-//                    //queue.add(next, next.getDistance()); // shortest path
-//                    queue.add(next, next.getTime());//fastest path
-//                }
-//            	
-//            });
-//            for (Road<V> item : roads) {
-//                
-//            }
-//        }
-        return null;
-    }
-	
 }

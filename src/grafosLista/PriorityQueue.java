@@ -1,4 +1,4 @@
-package nuevoGrafos;
+package grafosLista;
 import java.util.Arrays;
 @SuppressWarnings("unchecked")
 public class PriorityQueue<T,P>

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class GrafoMatrizNoDirigido<T> {
 	
-	private long matriz[][];
+	private int matriz[][];
 	private int numeroVertices;
 	private String[][] monda;
 	private Vertice<T>[] listaVertices;
@@ -14,7 +14,7 @@ public class GrafoMatrizNoDirigido<T> {
 		// TODO Auto-generated constructor stub
 		listaVertices = lista;
 		numeroVertices = numVertices;
-		matriz =  new long[numVertices][numVertices];
+		matriz =  new int[numVertices][numVertices];
         for(int i=0; i< numeroVertices; i++){
             for(int j=0; j< numeroVertices; j++){
                 matriz[i][j] = 0;
@@ -22,12 +22,27 @@ public class GrafoMatrizNoDirigido<T> {
         }
     }
 	
+	
+	
+	public int[][] getMatriz() {
+		return matriz;
+	}
+
+
+
+	public void setMatriz(int[][] matriz) {
+		this.matriz = matriz;
+	}
+
+
+
 	public void insertaArista(int v1, int v2, int dist) throws ArrayIndexOutOfBoundsException {
 			if (v1 > numeroVertices -1 || v2 > numeroVertices-1) {
 			throw new ArrayIndexOutOfBoundsException();
 			}
 		    else {
 			matriz[v1][v2] = dist;
+			matriz[v2][v1] = dist;
 			}
 	}
 	
@@ -125,9 +140,9 @@ public class GrafoMatrizNoDirigido<T> {
 		return null;
 	}
 	
-	public long[][] floydWarshall (long [][] matrizPeso){
+	public int[][] floydWarshall (int [][] matrizPeso){
 		int vertices = matrizPeso.length;
-		long matrizAdyacencia[][] =  matrizPeso;
+		int matrizAdyacencia[][] =  matrizPeso;
 		String caminos[][] = new String [vertices][vertices];
 		String caminosAuxiliares[][] =  new String [vertices][vertices];
 		String caminoRecorrido = "",cadena = "", caminitos = "";
@@ -158,7 +173,7 @@ public class GrafoMatrizNoDirigido<T> {
 							caminos[i][j] = caminosR(i,k,caminosAuxiliares,caminoRecorrido) + (k+1);
 						}
 					}
-					matrizAdyacencia[i][j] =  (long) minimo;
+					matrizAdyacencia[i][j] =  (int)minimo;
 				}
 			}
 		}

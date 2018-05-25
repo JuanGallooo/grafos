@@ -1,4 +1,4 @@
-package nuevoGrafos;
+package grafosLista;
 
 public class Arista<T> {
 	private Vertice<T> destino;

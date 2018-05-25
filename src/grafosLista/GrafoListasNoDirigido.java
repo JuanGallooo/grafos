@@ -1,7 +1,7 @@
-package nuevoGrafos;
+package grafosLista;
 
-public class GrafoNoDirigido<T> extends GrafoDirigido<T>{
-	public GrafoNoDirigido(){
+public class GrafoListasNoDirigido<T> extends GrafoListasDirigido<T>{
+	public GrafoListasNoDirigido(){
 		super();
 	}
 	@Override
@@ -30,4 +30,7 @@ public class GrafoNoDirigido<T> extends GrafoDirigido<T>{
 		((AristaNoDirigida<T>) arista).getReferencia().getAristas().remove(arista.hashCode());
 		return this.getAristas().remove(arista.hashCode());
 	}
+    public Arista<T> prim(String start,String end){
+      return null;
+  }
 }

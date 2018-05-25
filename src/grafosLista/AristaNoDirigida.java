@@ -1,4 +1,4 @@
-package nuevoGrafos;
+package grafosLista;
 
 public class AristaNoDirigida<T> extends Arista<T>{
 	private Vertice<T> referencia;
