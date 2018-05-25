@@ -157,4 +157,7 @@ public class GrafoListasDirigido<T> {
         	all.add(aristas.get(k));
         });
     }
+    public Vertice<T> getRefencia(Arista<T> arista){
+    	return ((AristaNoDirigida<T>) arista).getReferencia();
+    }
 }

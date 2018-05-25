@@ -26,4 +26,7 @@ public class Arista<T> {
     public boolean tiene(Vertice<T> vertex){
         return destino.compareTo(vertex) == 0;
     }
+    public Vertice<T> getRefencia(Arista<T> arista){
+    	return ((AristaNoDirigida<T>) arista).getReferencia();
+    }
 }

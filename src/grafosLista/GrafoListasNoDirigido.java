@@ -32,5 +32,5 @@ public class GrafoListasNoDirigido<T> extends GrafoListasDirigido<T>{
 	}
     public Arista<T> prim(String start,String end){
       return null;
-  }
+    }
 }
