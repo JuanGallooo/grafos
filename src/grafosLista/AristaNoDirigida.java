@@ -1,9 +1,9 @@
 package grafosLista;
 
-public class AristaNoDirigida<T> extends Arista<T>{
+public class AristaNoDirigida<T extends Comparable<?>> extends Arista<T>{
 	private Vertice<T> referencia;
 
-	public AristaNoDirigida(Vertice<T> referencia,Vertice<T> destino, double peso) {
+	public AristaNoDirigida(Vertice<T> referencia,Vertice<T> destino, int peso) {
 		super(destino, peso);
 		this.referencia= referencia;
 	}

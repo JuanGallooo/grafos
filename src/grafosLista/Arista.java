@@ -1,9 +1,9 @@
 package grafosLista;
 
-public class Arista<T> {
+public class Arista<T extends Comparable<?>> implements Comparable<Arista<T>>{
 	private Vertice<T> destino;
-	private double peso;
-	public Arista(Vertice<T> destino, double peso) {
+	private int peso;
+	public Arista(Vertice<T> destino, int peso) {
 		this.destino= destino;
 		this.peso= peso;
 	}
@@ -17,10 +17,10 @@ public class Arista<T> {
 	public void setDestino(Vertice<T> destino) {
 		this.destino = destino;
 	}
-	public double getPeso() {
+	public int getPeso() {
 		return peso;
 	}
-	public void setPeso(double peso) {
+	public void setPeso(int peso) {
 		this.peso = peso;
 	}
     public boolean tiene(Vertice<T> vertex){
@@ -29,4 +29,8 @@ public class Arista<T> {
     public Vertice<T> getRefencia(Arista<T> arista){
     	return ((AristaNoDirigida<T>) arista).getReferencia();
     }
+	@Override
+	public int compareTo(Arista<T> o) {
+		return (int)(getPeso() - o.getPeso());
+	}
 }

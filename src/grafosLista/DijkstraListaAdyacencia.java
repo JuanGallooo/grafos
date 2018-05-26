@@ -9,21 +9,21 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-public class DijkstraListaAdyacencia<T> {
+public class DijkstraListaAdyacencia<T extends Comparable<?>> {
 	    private HashMap<Object, Arista<T>> aristas;
 	    private Set<Vertice<T>> verticesVisitados;
 	    private Set<Vertice<T>> verticesNoVisitados;
 	    private Map<Vertice<T>, Vertice<T>> predecesores;
-	    private Map<Vertice<T>, Integer> distancia;
+	    private Map<Vertice<T>, Integer> distancias;
 	    public DijkstraListaAdyacencia(GrafoListasNoDirigido<T> graph) {
 	        this.aristas =  graph.getAristas();
 	    }
 	    public void inicio(Vertice<T> inicio) {
 	        verticesVisitados= new HashSet<Vertice<T>>();
 	        verticesNoVisitados= new HashSet<Vertice<T>>();
-	        distancia = new HashMap<Vertice<T>, Integer>();
+	        distancias = new HashMap<Vertice<T>, Integer>();
 	        predecesores = new HashMap<Vertice<T>, Vertice<T>>();
-	        distancia.put(inicio, 0);
+	        distancias.put(inicio, 0);
 	        verticesNoVisitados.add(inicio);
 	        while (verticesNoVisitados.size() > 0) {
 	        	Vertice<T> nodo = getMinimo(verticesNoVisitados);
@@ -38,7 +38,7 @@ public class DijkstraListaAdyacencia<T> {
 	        	int distanciaMinima= getDistanciaMinima(destino);
 	        	int suma= getDistanciaMinima(node)+getDistancia(node, destino);
 	            if (distanciaMinima>suma) {
-	                distancia.put(destino, suma);
+	                distancias.put(destino, suma);
 	                predecesores.put(destino, node);
 	                verticesNoVisitados.add(destino);
 	            }
@@ -83,7 +83,7 @@ public class DijkstraListaAdyacencia<T> {
 	        return verticesVisitados.contains(vertice);
 	    }
 	    public int getDistanciaMinima(Vertice<T> destination) {
-	        Integer d = distancia.get(destination);
+	        Integer d = distancias.get(destination);
 	        if (d == null) {
 	            return Integer.MAX_VALUE;
 	        } else {

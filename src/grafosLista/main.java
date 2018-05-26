@@ -6,12 +6,12 @@ public class main {
 
 	public static void main(String[] args) {
 		GrafoListasNoDirigido<String> grafo= new GrafoListasNoDirigido<>();
-		Vertice<String> a= new Vertice<String>("a", 0);
-		Vertice<String> b= new Vertice<String>("b", 0);
-		Vertice<String> c= new Vertice<String>("c", 0);
-		Vertice<String> d= new Vertice<String>("d", 0);
-		Vertice<String> e= new Vertice<String>("e", 0);
-		Vertice<String> f= new Vertice<String>("f", 0);
+		Vertice<String> a= new Vertice<String>("a");
+		Vertice<String> b= new Vertice<String>("b");
+		Vertice<String> c= new Vertice<String>("c");
+		Vertice<String> d= new Vertice<String>("d");
+		Vertice<String> e= new Vertice<String>("e");
+		Vertice<String> f= new Vertice<String>("f");
 		grafo.insertarVertice(a);
 		grafo.insertarVertice(b);
 		grafo.insertarVertice(c);

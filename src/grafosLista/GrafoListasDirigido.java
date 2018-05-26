@@ -1,4 +1,5 @@
 package grafosLista;
+import java.awt.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -6,11 +7,12 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
-public class GrafoListasDirigido<T> {
+public class GrafoListasDirigido<T extends Comparable<?>> {
 
 	private HashMap<Object, Vertice<T>> vertices;
 	private HashMap<Object, Arista<T>> aristas;
 	private Iterator<Object> iterador;
+	
 	public GrafoListasDirigido(){
 		this.vertices = new HashMap<Object, Vertice<T>>();
 		this.aristas = new HashMap<Object, Arista<T>>();
@@ -96,63 +98,13 @@ public class GrafoListasDirigido<T> {
 	public void setAristas(HashMap<Object, Arista<T>> aristas) {
 		this.aristas = aristas;
 	}
-	//BFS
-	public ArrayList<Vertice<T>> bfs(String s){
-		ArrayList<Vertice<T>> retorno= new ArrayList<Vertice<T>>();
-		Queue<Vertice<T>> queue = new LinkedList<Vertice<T>>();
-		queue.add(vertices.get(s));
-		retorno.add(vertices.get(s));
-		vertices.get(s).setVisitado(true);
-		while(!queue.isEmpty()){
-			Vertice<T> node = (Vertice<T>)queue.poll();
-			Vertice<T> child=null;		
-			Iterator it = node.getAristas().keySet().iterator();
-			while (it.hasNext()) {	
-			Object e = it.next();
-			child= node.getAristas().get(e).getDestino();
-			if(!child.isVisitado()) {
-			retorno.add(child);
-			child.setVisitado(true);
-			queue.add(child);
-			}
-			}
-		}
-		limpiarCadaVertice();
-		return retorno;
-	}
-	//DFS
-	public ArrayList<Vertice<T>> dfs(String s) {
-		ArrayList<Vertice<T>> retorno = new ArrayList<Vertice<T>>();
-		Stack<Vertice<T>> stack = new Stack<Vertice<T>>();
-		stack.push(vertices.get(s));
-		vertices.get(s).setVisitado(true);
-		retorno.add(vertices.get(s));
-		while (!stack.isEmpty()) {
-			Vertice<T> node = (Vertice<T>) stack.peek();
-			Vertice<T> child = null;
-			Iterator it = node.getAristas().keySet().iterator();
-			while (it.hasNext()) {
-				Object e = it.next();
-				child= node.getAristas().get(e).getDestino();
-				if (!child.isVisitado()) {
-					child.setVisitado(true);
-					retorno.add(child);
-					stack.push(child);
-				} else {
-					stack.pop();
-				}
-			}
-		}
-		limpiarCadaVertice();
-		return retorno;
-	}
 	public void limpiarCadaVertice() {
 		vertices.forEach((k, v) -> {
 	        	   vertices.get(k).setVisitado(false);;
 	    });
 	}
     public void minimumSpaningTree(){
-        PriorityQueue<Arista<T>,T> all = new PriorityQueue<>();
+        ColaPrioridad<Arista<T>,T> all = new ColaPrioridad<>();
         aristas.forEach((k, v) -> {
         	all.add(aristas.get(k));
         });
@@ -160,4 +112,75 @@ public class GrafoListasDirigido<T> {
     public Vertice<T> getRefencia(Arista<T> arista){
     	return ((AristaNoDirigida<T>) arista).getReferencia();
     }
+	public Iterator<Object> getIterador() {
+		return iterador;
+	}
+	public void setIterador(Iterator<Object> iterador) {
+		this.iterador = iterador;
+	}
+	public int buscarEnLista(String buscar,String[] asignados) {
+		for (int i = 0; i < asignados.length; i++) {
+			if(asignados[i].equals(buscar)) return i; 
+		}
+		return -1;
+	}
+	public ArrayList<Vertice<T>> getVerticesList() {
+		ArrayList<Vertice<T>> list = new ArrayList<Vertice<T>>();
+		setIterador(getVertices().keySet().iterator());
+		while (getIterador().hasNext()) {
+			Object k = (Object) getIterador().next();
+			list.add(getVertices().get(k));
+		}
+		return list;
+	}
+	//BFS
+		public ArrayList<Vertice<T>> bfs(String s){
+			ArrayList<Vertice<T>> retorno= new ArrayList<Vertice<T>>();
+			Queue<Vertice<T>> queue = new LinkedList<Vertice<T>>();
+			queue.add(vertices.get(s));
+			retorno.add(vertices.get(s));
+			vertices.get(s).setVisitado(true);
+			while(!queue.isEmpty()){
+				Vertice<T> node = (Vertice<T>)queue.poll();
+				Vertice<T> child=null;		
+				Iterator it = node.getAristas().keySet().iterator();
+				while (it.hasNext()) {	
+				Object e = it.next();
+				child= node.getAristas().get(e).getDestino();
+				if(!child.isVisitado()) {
+				retorno.add(child);
+				child.setVisitado(true);
+				queue.add(child);
+				}
+				}
+			}
+			limpiarCadaVertice();
+			return retorno;
+		}
+		//DFS
+		public ArrayList<Vertice<T>> dfs(String s) {
+			ArrayList<Vertice<T>> retorno = new ArrayList<Vertice<T>>();
+			Stack<Vertice<T>> stack = new Stack<Vertice<T>>();
+			stack.push(vertices.get(s));
+			vertices.get(s).setVisitado(true);
+			retorno.add(vertices.get(s));
+			while (!stack.isEmpty()) {
+				Vertice<T> node = (Vertice<T>) stack.peek();
+				Vertice<T> child = null;
+				Iterator it = node.getAristas().keySet().iterator();
+				while (it.hasNext()) {
+					Object e = it.next();
+					child= node.getAristas().get(e).getDestino();
+					if (!child.isVisitado()) {
+						child.setVisitado(true);
+						retorno.add(child);
+						stack.push(child);
+					} else {
+						stack.pop();
+					}
+				}
+			}
+			limpiarCadaVertice();
+			return retorno;
+		}
 }

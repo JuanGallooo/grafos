@@ -1,13 +1,13 @@
 package grafosLista;
 import java.util.Arrays;
 @SuppressWarnings("unchecked")
-public class PriorityQueue<T,P>
+public class ColaPrioridad<T extends Comparable<?>,P extends Comparable<?>>
 {
     private Object[] data;
     private int size;
     private static final int capacidad = 10;
 
-    public PriorityQueue () {
+    public ColaPrioridad () {
         data = new Object[capacidad];
         size = 0;
     }

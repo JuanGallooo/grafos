@@ -1,12 +1,12 @@
 package grafosLista;
 import java.util.HashMap;
 import java.util.Iterator;
-public class Vertice<T> {
+public class Vertice<T extends Comparable<?>> {
 	private boolean visitado;
 	private T elemento;
     private HashMap<Object, Arista<T>> aristas;
 	
-	public Vertice(T elemento, int numAristas) {
+	public Vertice(T elemento) {
 		super();
 		aristas=new HashMap<Object, Arista<T>>();
 		visitado= false;
