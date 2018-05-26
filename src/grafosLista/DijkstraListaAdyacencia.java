@@ -10,20 +10,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 public class DijkstraListaAdyacencia<T> {
-//	    private HashMap<Object ,Vertice<T>> vertices;
 	    private HashMap<Object, Arista<T>> aristas;
-	    
-	    private Vertice<T> inicio;
 	    private Set<Vertice<T>> verticesVisitados;
 	    private Set<Vertice<T>> verticesNoVisitados;
 	    private Map<Vertice<T>, Vertice<T>> predecesores;
 	    private Map<Vertice<T>, Integer> distancia;
 	    public DijkstraListaAdyacencia(GrafoListasNoDirigido<T> graph) {
-//	        this.vertices = graph.getVertices();
 	        this.aristas =  graph.getAristas();
 	    }
 	    public void inicio(Vertice<T> inicio) {
-	    	this.inicio= inicio;
 	        verticesVisitados= new HashSet<Vertice<T>>();
 	        verticesNoVisitados= new HashSet<Vertice<T>>();
 	        distancia = new HashMap<Vertice<T>, Integer>();
@@ -45,7 +40,6 @@ public class DijkstraListaAdyacencia<T> {
 	            if (distanciaMinima>suma) {
 	                distancia.put(destino, suma);
 	                predecesores.put(destino, node);
-//	                predecesores.put(node, destino);
 	                verticesNoVisitados.add(destino);
 	            }
 	        }
@@ -54,7 +48,6 @@ public class DijkstraListaAdyacencia<T> {
 			Iterator iterador= aristas.keySet().iterator();
 			while (iterador.hasNext()) {
 				Object k= (Object) iterador.next();
-				
 	            if (aristas.get(k).getRefencia(aristas.get(k)).equals(node)
 	                    && aristas.get(k).getDestino().equals(target)) {
 	                return (int) aristas.get(k).getPeso();
@@ -110,39 +103,5 @@ public class DijkstraListaAdyacencia<T> {
 	        }
 	        Collections.reverse(path);
 	        return path;
-	    }
-	    public LinkedList<Vertice<T>> destino(Vertice<T> target) {
-	    	Map<Vertice<T>, Vertice<T>> predecesores= this.predecesores;
-	        LinkedList<Vertice<T>> path = new LinkedList<Vertice<T>>();
-	        Vertice<T> paso = target;
-	        path.add(paso);
-	        while(!paso.equals(inicio)) {
-	        	Vertice<T> buscado= buscarConKey(paso,predecesores);
-	        	if( buscado== null) {
-	        		buscado= buscarConObject(paso,predecesores);
-	        		predecesores.remove(buscado);
-	        	}
-	        	else predecesores.remove(paso);
-        		path.add(buscado);
-        		paso=buscado;
-	        }
-	        Collections.reverse(path);
-	        return path;
-	    }
-	    public Vertice<T> buscarConKey(Vertice<T> buscar,Map<Vertice<T>, Vertice<T>> predecesores){
-			Iterator iterador= predecesores.keySet().iterator();
-			while (iterador.hasNext()) {
-				Object k= (Object) iterador.next();
-				if(((Vertice<T>) k).equals(buscar)) return predecesores.get(k);
-			}
-			return null;
-	    }
-	    public Vertice<T> buscarConObject(Vertice<T> buscar,Map<Vertice<T>, Vertice<T>> predecesores){
-			Iterator iterador= predecesores.keySet().iterator();
-			while (iterador.hasNext()) {
-				Object k= (Object) iterador.next();
-				if(predecesores.get(k).equals(buscar)) return (Vertice<T>)k;
-			}
-			return null;
 	    }
 }
