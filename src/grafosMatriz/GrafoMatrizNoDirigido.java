@@ -6,7 +6,6 @@ public class GrafoMatrizNoDirigido<T> {
 	
 	private int matriz[][];
 	private int numeroVertices;
-	private String[][] monda;
 	private Vertice<T>[] listaVertices;
 	
 	
@@ -28,14 +27,10 @@ public class GrafoMatrizNoDirigido<T> {
 		return matriz;
 	}
 
-
-
 	public void setMatriz(int[][] matriz) {
 		this.matriz = matriz;
 	}
-
-
-
+	
 	public void insertaArista(int v1, int v2, int dist) throws ArrayIndexOutOfBoundsException {
 			if (v1 > numeroVertices -1 || v2 > numeroVertices-1) {
 			throw new ArrayIndexOutOfBoundsException();
@@ -143,19 +138,8 @@ public class GrafoMatrizNoDirigido<T> {
 	public int[][] floydWarshall (int [][] matrizPeso){
 		int vertices = matrizPeso.length;
 		int matrizAdyacencia[][] =  matrizPeso;
-		String caminos[][] = new String [vertices][vertices];
-		String caminosAuxiliares[][] =  new String [vertices][vertices];
-		String caminoRecorrido = "",cadena = "", caminitos = "";
 		int i,j,k;
 		float temporal1,temporal2,temporal3,temporal4,minimo;
-		for(i=0; i< vertices;i++){
-			for(j=0;j<vertices;j++){
-				caminos[i][j] = "";
-				caminosAuxiliares[i][j] = "";
-				
-			}
-		}
-		
 		for(k=0;k<vertices;k++){
 			for(i =0; i < vertices;i++){
 				for(j=0;j< vertices;j++){
@@ -165,34 +149,13 @@ public class GrafoMatrizNoDirigido<T> {
 					temporal4 = temporal2+temporal3;
 					
 					minimo = Math.min(temporal1, temporal4);
-					
-					if(temporal1 != temporal4){
-						if(minimo == temporal4){
-							caminoRecorrido = "";
-							caminosAuxiliares[i][j] = k +"";
-							caminos[i][j] = caminosR(i,k,caminosAuxiliares,caminoRecorrido) + (k+1);
-						}
-					}
 					matrizAdyacencia[i][j] =  (int)minimo;
 				}
 			}
 		}
-		
-		monda = caminos;
 			
 		return matrizAdyacencia;
 	}
 
-	public String caminosR(int i, int k, String[][] caminosAuxiliares, String caminoRecorrido) {
-		// TODO Auto-generated method stub
-		if(caminosAuxiliares[i][k].equals("")){
-			return "";
-		}
-		else{
-			caminoRecorrido += caminosR(i,Integer.parseInt(caminosAuxiliares[i][k].toString()),caminosAuxiliares,caminoRecorrido) + (Integer.parseInt(caminosAuxiliares[i][k].toString())+1);
-		}
-		
-		return caminoRecorrido;
-	}
 	
 }

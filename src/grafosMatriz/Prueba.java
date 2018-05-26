@@ -24,7 +24,6 @@ public class Prueba {
 	     
 	     int matrizPeso[][] = grafo.floydWarshall(grafo.getMatriz());
 	     
-	     
 	    String mensaje = "";
 	     for (int i = 0; i < matrizNueva.length; i++) {
 	    	 for (int j = 0; j < matrizNueva.length; j++) {    		 
@@ -42,21 +41,21 @@ public class Prueba {
 	     System.out.println(mensaje);
 	     
 	     
-		    String mensaje2 = "";
+		    String mensaje21 = "";
 		     for (int i = 0; i < matrizNueva.length; i++) {
 		    	 for (int j = 0; j < matrizNueva.length; j++) {    		 
 		    		 
 		    		if(j==matrizNueva.length-1){
-		    		mensaje2+=matrizNueva[i][j] + "\n";
+		    		mensaje21+=matrizNueva[i][j] + "\n";
 		    		}
 		    		else{
-		    		mensaje2+= matrizNueva[i][j] + " ";
+		    		mensaje21+= matrizNueva[i][j] + " ";
 		    		}
 				}
 				
 			}
 		     
-		     System.out.println(mensaje);
+		     System.out.println(mensaje21);
 		
 		  }
 	     
