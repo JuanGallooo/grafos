@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Set;
 
+import auxiliares.ConjuntoDisjunto;
+
 public class GrafoListasNoDirigido<T extends Comparable<?>> extends GrafoListasDirigido<T> {
 	public GrafoListasNoDirigido() {
 		super();

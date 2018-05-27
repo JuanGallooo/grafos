@@ -1,5 +1,7 @@
-package grafosLista;
+package auxiliares;
 import java.util.Arrays;
+
+import grafosLista.Arista;
 @SuppressWarnings("unchecked")
 public class ColaPrioridad<T extends Comparable<?>,P extends Comparable<?>>
 {

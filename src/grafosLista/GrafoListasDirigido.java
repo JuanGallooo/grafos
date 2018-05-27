@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
+import auxiliares.ColaPrioridad;
+
 public class GrafoListasDirigido<T extends Comparable<?>> {
 
 	private HashMap<Object, Vertice<T>> vertices;
@@ -116,12 +118,6 @@ public class GrafoListasDirigido<T extends Comparable<?>> {
 	}
 	public void setIterador(Iterator<Object> iterador) {
 		this.iterador = iterador;
-	}
-	public int buscarEnLista(String buscar,String[] asignados) {
-		for (int i = 0; i < asignados.length; i++) {
-			if(asignados[i].equals(buscar)) return i; 
-		}
-		return -1;
 	}
 	public ArrayList<Vertice<T>> getVerticesList() {
 		ArrayList<Vertice<T>> list = new ArrayList<Vertice<T>>();

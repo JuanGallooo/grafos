@@ -1,4 +1,4 @@
-package grafosLista;
+package auxiliares;
 
 import java.util.ArrayList;
 import java.util.Collection;
