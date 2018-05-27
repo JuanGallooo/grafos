@@ -2,9 +2,11 @@ package grafosLista;
 
 import java.util.LinkedList;
 
+import mundo.Controlador;
+
 public class main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		GrafoListasNoDirigido<String> grafo= new GrafoListasNoDirigido<>();
 		Vertice<String> a= new Vertice<String>("a");
 		Vertice<String> b= new Vertice<String>("b");
@@ -34,7 +36,13 @@ public class main {
 		dijkstra.inicio(grafo.getVertice("a"));
 		LinkedList<Vertice<String>> vertices= dijkstra.destinoFinal(grafo.getVertice("f"));
 		for (int i = 0; i < vertices.size(); i++) {
-			System.out.println(vertices.get(i));
+//			System.out.println(vertices.get(i));
+		}
+		
+		Controlador mundo= new Controlador();
+		
+		for (int i = 0; i < mundo.darSoluciones().size(); i++) {
+			System.out.println(mundo.darSoluciones().get(i));
 		}
 	}
 }

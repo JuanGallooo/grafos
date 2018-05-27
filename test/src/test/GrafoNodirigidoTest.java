@@ -21,10 +21,10 @@ public class GrafoNodirigidoTest {
 		aristas= new ArrayList<AristaNoDirigida<String>>();
 		grafo= new GrafoListasNoDirigido<String>();
 		
-		Vertice<String> a= new Vertice<String>("a", 1);
-		Vertice<String> b= new Vertice<String>("b", 1);
-		Vertice<String> c= new Vertice<String>("c", 1);
-		Vertice<String> d= new Vertice<String>("d", 2);
+		Vertice<String> a= new Vertice<String>("a");
+		Vertice<String> b= new Vertice<String>("b");
+		Vertice<String> c= new Vertice<String>("c");
+		Vertice<String> d= new Vertice<String>("d");
 		
 		AristaNoDirigida<String> uno= new AristaNoDirigida<String>(a,b, 2);
 		AristaNoDirigida<String> dos= new AristaNoDirigida<String>(b,c, 2);

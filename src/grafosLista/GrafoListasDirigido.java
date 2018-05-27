@@ -1,5 +1,4 @@
 package grafosLista;
-import java.awt.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
