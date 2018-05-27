@@ -135,6 +135,49 @@ public class GrafoMatrizNoDirigido<T> {
 		return null;
 	}
 	
+	public int[] dijkstra(int [][] peso, int origen){
+		int vertices = peso.length;
+		int[] verticesVisitados = new int[vertices+1];
+		int[] distancia =  new int[vertices];
+		int minimo,i,k,c;
+		int primeraPosicion = 0;
+		
+		for (i = 0; i < vertices; i++) {
+			verticesVisitados[i] = 0;
+			distancia[i] =  peso[origen][i];
+			
+		}
+		c = 1;
+		i--;
+		while(c< vertices){
+			minimo =9999;
+			int visualizar = 0;
+			for (k = 0; k < vertices; k++) {
+				visualizar = distancia[k];
+			   if(distancia[k]<minimo && verticesVisitados[k] != 1){
+				   minimo = distancia[i];
+				   primeraPosicion = k;
+			   }
+			}
+			
+			verticesVisitados[primeraPosicion] = 1;
+			c++;
+			
+			for (k = 0; k < vertices; k++) {
+				int valor1 = distancia[primeraPosicion] + peso[primeraPosicion][k];
+				int valor2 = distancia[k];
+				 if(distancia[primeraPosicion] + peso[primeraPosicion][k] < distancia[k] && verticesVisitados[k] != 1){
+					 distancia[k] = distancia[primeraPosicion] + peso[primeraPosicion][k]; 
+				    }
+		    }
+			
+			
+		}
+		
+		return distancia;
+		
+	}
+	
 	public int[][] floydWarshall (int [][] matrizPeso){
 		int vertices = matrizPeso.length;
 		int matrizAdyacencia[][] =  matrizPeso;
