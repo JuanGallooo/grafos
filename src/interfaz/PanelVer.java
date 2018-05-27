@@ -7,14 +7,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 
-import grafosLista.Arista;
 import grafosLista.AristaNoDirigida;
 import grafosLista.Vertice;
 
@@ -28,26 +26,37 @@ public class PanelVer extends JPanel{
 	private ArrayList<AristaNoDirigida<String>> todasAristas;
 	private ArrayList<Color> colores;
 	private boolean todo;
+	int indiceSolucion=0;
 	
 	public PanelVer(VentanaPrincipal p) {
+		setSize(1550, 1400);
 		principal=p;
+		indiceSolucion=-1;
 		colores= new ArrayList<Color>();
-		todas= principal.getMundo().darkRoads().getGrafo().getVerticesList();
-		todasAristas= principal.getMundo().darkRoads().getGrafo().getAristasList();
-		duplas= new HashMap<Vertice<String>, String>();
+	}
+	
+	public void actualizar(int indiceSolucion, boolean todo) {
+		if( indiceSolucion!= this.indiceSolucion) {
+		this.indiceSolucion=indiceSolucion;
+		todas= principal.getMundo().darkRoads().getGrafos().get(indiceSolucion).getVerticesList();
+		todasAristas= principal.getMundo().darkRoads().getGrafos().get(indiceSolucion).getAristasList();
 		Random aleatorio = new Random(System.currentTimeMillis());
 		icono=new ImageIcon("./ArchivosDarkRoads/imagenes/bombilla.gif"); 
-		todo=true;
+		duplas= new HashMap<Vertice<String>, String>();
 		for (int i = 0; i < todas.size(); i++) {
-			int x= aleatorio.nextInt(1000)+100;
-			int y= aleatorio.nextInt(1000)+100;
-			String dupla= x+" "+y;
-			duplas.put(todas.get(i), dupla);
+				int x= aleatorio.nextInt(1000)+100;
+				int y= aleatorio.nextInt(1000)+100;
+				String dupla= x+" "+y;
+				duplas.put(todas.get(i), dupla);
 		}
+		colores= new ArrayList<Color>();
+		}
+		this.todo=todo;
+		if(todo)todasAristas= principal.getMundo().darkRoads().getGrafos().get(indiceSolucion).getAristasList();
 	}
 	public void paintComponent(Graphics g){
 		Graphics2D g2d = (Graphics2D)g;
-		if(todo){
+		if(!todo) todasAristas= principal.getMundo().darkRoads().getAristasSoluciones().get(indiceSolucion);
 			Random rand = new Random();
 			for (int j = 0; j < todasAristas.size(); j++) {
 				Vertice<String> referencia= todasAristas.get(j).getReferencia();
@@ -73,7 +82,7 @@ public class PanelVer extends JPanel{
 				g2d.setStroke(new BasicStroke(5));
 			    g2d.drawLine(xa, ya, xd, yd);
 			    g2d.setColor(Color.BLACK);
-			    g.setFont( new Font( "Tahoma", Font.BOLD, 40 ) );
+			    g.setFont( new Font( "Tahoma", Font.BOLD, 20 ) );
 			    g.drawString(todasAristas.get(j).getPeso()+"", (xa+xd)/2,(ya+yd)/2);
 			}
 			for (int i = 0; i < todas.size(); i++) {
@@ -81,11 +90,16 @@ public class PanelVer extends JPanel{
 				String[] posiciones= dupla.split(" ");
 				g.drawImage(icono.getImage(),Integer.parseInt(posiciones[0]),Integer.parseInt(posiciones[1]), null);
 			}
-		}
-		else {
-		}
+			 g.drawString(principal.getMundo().darkRoads().getSoluciones().get(indiceSolucion), 50,50);
+			 super.paintComponent(g);
 		setOpaque(false);
 		revalidate();
 	}
-
+	public boolean isTodo() {
+		return todo;
+	}
+	public void setTodo(boolean todo) {
+		this.todo = todo;
+	}
+	
 }

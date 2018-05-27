@@ -11,7 +11,7 @@ public class Controlador {
 	
 	public Controlador() throws Exception{
 		darkRoads= new DarkRoads();
-		darkRoads.crearGrafo("./ArchivosDarkRoads/TextPruebas/prueba1"+".txt");
+		darkRoads.crearGrafo("./ArchivosDarkRoads/TextPruebas/prueba2"+".txt");
 		solucionProblema1= darkRoads.getSoluciones().get(0);
 	}
 	public ArrayList<String> darSoluciones(){

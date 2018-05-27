@@ -731,6 +731,7 @@ public class Main {
 					split= mensaje.split(" ");
 				}
 				io.close();
+				rc.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new Exception("Error al leer el archivo");
