@@ -53,7 +53,7 @@ public class GrafoListasNoDirigido<T extends Comparable<?>> extends GrafoListasD
 		}
 		return list;
 	}
-	public List<AristaNoDirigida<T>> getAristasList() {
+	public ArrayList<AristaNoDirigida<T>> getAristasList() {
 		ArrayList<AristaNoDirigida<T>> list = new ArrayList<AristaNoDirigida<T>>();
 		setIterador(getAristas().keySet().iterator());
 		while (getIterador().hasNext()) {
