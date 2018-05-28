@@ -1,8 +1,13 @@
 package grafosMatriz;
 
 import java.util.ArrayList;
+import java.util.PriorityQueue;
+
+import auxiliares.ColaPrioridad;
 
 public class GrafoMatrizNoDirigido<T> {
+	
+	public final static int INF = 9999999;
 	
 	private int matriz[][];
 	private int numeroVertices;
@@ -16,7 +21,11 @@ public class GrafoMatrizNoDirigido<T> {
 		matriz =  new int[numVertices][numVertices];
         for(int i=0; i< numeroVertices; i++){
             for(int j=0; j< numeroVertices; j++){
-                matriz[i][j] = 0;
+            	if(i==j){
+            		matriz[i][j] =0;
+            	}
+            	else
+                matriz[i][j] = INF;
             }            
         }
     }
@@ -40,6 +49,15 @@ public class GrafoMatrizNoDirigido<T> {
 			matriz[v2][v1] = dist;
 			}
 	}
+	public void insertaAristaUVA(int v1, int v2, int dist) throws ArrayIndexOutOfBoundsException {
+		if (v1 > numeroVertices -1 || v2 > numeroVertices-1) {
+		throw new ArrayIndexOutOfBoundsException();
+		}
+	    else if(dist < matriz[v1][v2]) {
+		matriz[v1][v2] = dist;
+		matriz[v2][v1] = dist;
+		}
+}
 	
 	public int buscarIndiceMatriz(T elemento){
 		boolean encontro = false;
@@ -130,53 +148,72 @@ public class GrafoMatrizNoDirigido<T> {
 	public ArrayList<Vertice<T>> kruskal(Arista<T>[] aristas){
 		return null;
 	}
-	
-	public ArrayList<Vertice<T>> dijkstra(Vertice<T> inicio, Vertice<T> fin){
-		return null;
-	}
-	
-	public int[] dijkstra(int [][] peso, int origen){
-		int vertices = peso.length;
-		int[] verticesVisitados = new int[vertices+1];
-		int[] distancia =  new int[vertices];
-		int minimo,i,k,c;
-		int primeraPosicion = 0;
 		
-		for (i = 0; i < vertices; i++) {
-			verticesVisitados[i] = 0;
-			distancia[i] =  peso[origen][i];
-			
+	public int[] dijkstra(int[][] peso, int origen){
+		int temporal,temporal2;
+		int numVertices = peso.length;		
+		boolean visto[] =  new boolean[numVertices];
+		int[] distancias = new int[numVertices];
+		int[] aux = new int[numVertices];
+		
+		for(int i = 0; i < numVertices; i++){
+			visto[i] = false;
+			aux[i] = -1;
+			distancias[i] = INF;
 		}
-		c = 1;
-		i--;
-		while(c< vertices){
-			minimo =9999;
-			int visualizar = 0;
-			for (k = 0; k < vertices; k++) {
-				visualizar = distancia[k];
-			   if(distancia[k]<minimo && verticesVisitados[k] != 1){
-				   minimo = distancia[i];
-				   primeraPosicion = k;
-			   }
+		distancias[origen] = 0;
+		PriorityQueue<Integer> colaVisitados =  new PriorityQueue<Integer>();
+		colaVisitados.add(distancias[origen]+origen);
+		while(!colaVisitados.isEmpty()){
+			int actual = colaVisitados.poll();
+			visto[actual] = true;
+			for(int v = 0; v < numVertices; v++){
+			int visualizar =peso[actual][v];
+			visualizar = distancias[v];
+			if(peso[origen][v] != 0){
+				temporal = distancias[v];
+				temporal2 = distancias[actual] + peso[actual][v];
+				if( temporal > temporal2 ){
+					distancias[v] = distancias[actual] + peso[actual][v];
+					aux[v] = actual;
+					colaVisitados.add(v);
+				}	
+			 }
 			}
 			
-			verticesVisitados[primeraPosicion] = 1;
-			c++;
-			
-			for (k = 0; k < vertices; k++) {
-				int valor1 = distancia[primeraPosicion] + peso[primeraPosicion][k];
-				int valor2 = distancia[k];
-				 if(distancia[primeraPosicion] + peso[primeraPosicion][k] < distancia[k] && verticesVisitados[k] != 1){
-					 distancia[k] = distancia[primeraPosicion] + peso[primeraPosicion][k]; 
-				    }
-		    }
-			
-			
+		}
+		return distancias;
+	   }
+	
+	public int[] transformacionArrayList(ArrayList<Integer> aristasMultiples){
+		int[] retorno = new int[aristasMultiples.size()];
+		for (int i = 0; i < aristasMultiples.size(); i++) {
+			retorno[i] = aristasMultiples.get(i); 
+		}
+		return retorno;
+	}
+
+	
+	public int buscarMinimoR(int[] distancias, int i, int j ){
+		if(i==j || j == i+1){
+			return Math.min(distancias[i], distancias[j]);
+		}
+		else{
+			int m = (i+j)/2;
+			int izq = buscarMinimoR(distancias, i, m);
+			int der =buscarMinimoR(distancias, m+1, j);
+			return Math.min(izq, der);	
 		}
 		
-		return distancia;
 		
+	    
 	}
+	public int buscarMinimo(int[] distancias){
+	    int minimo = buscarMinimoR(distancias, 0, distancias.length-1);
+	    return minimo;
+	}
+
+	
 	
 	public int[][] floydWarshall (int [][] matrizPeso){
 		int vertices = matrizPeso.length;

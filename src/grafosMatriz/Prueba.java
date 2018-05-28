@@ -1,63 +1,56 @@
 package grafosMatriz;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 public class Prueba {
-	public static void main(String[] args) {
-		GrafoMatrizNoDirigido<String> grafo = new GrafoMatrizNoDirigido<>(6, null);
-		grafo.insertaArista(0, 1, 4);
-		grafo.insertaArista(0, 2,2);
-		grafo.insertaArista(0, 3, 99999);
-		grafo.insertaArista(0, 4, 99999);
-		grafo.insertaArista(0, 5, 99999);
-		grafo.insertaArista(1, 2, 1);
-		grafo.insertaArista(1, 3, 5);
-		grafo.insertaArista(1, 4, 99999);
-		grafo.insertaArista(1, 5, 99999);
-		grafo.insertaArista(2, 3, 8);
-		grafo.insertaArista(2, 4, 10);
-		grafo.insertaArista(2, 5, 99999);
-		grafo.insertaArista(3, 4, 2);
-		grafo.insertaArista(3, 5, 6);
-		grafo.insertaArista(4, 5, 3);
-
-
+	public static void main(String[] args) throws IOException {
+		BufferedReader lector =  new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter escritor = new BufferedWriter(new OutputStreamWriter(System.out));
+		String mensaje = lector.readLine();
+		String[] valores = null;
+		int casos = Integer.parseInt(mensaje);
+		int n,m,s,t;
+		int v1,v2,distancia;
+		GrafoMatrizNoDirigido<Integer> grafo =  null;
 		
-	     int[] dijkstra = grafo.dijkstra(grafo.getMatriz(), 0);
-	     int[][] floyd = grafo.floydWarshall(grafo.getMatriz());
-	     
-	     
-	    String mensaje = "";
-	    	 for (int j = 0; j < dijkstra.length; j++) {    		 
-	    		 
-	    		if(j==dijkstra.length-1){
-	    		mensaje+=dijkstra[j] + "\n";
-	    		}
-	    		else{
-	    		mensaje+= dijkstra[j] + " ";
-	    		}
+		for(int x = 1; x <= casos; x++){
+			mensaje =lector.readLine();
+			valores = mensaje.split(" ");
+			n = Integer.parseInt(valores[0]);	
+			m = Integer.parseInt(valores[1]);
+			s = Integer.parseInt(valores[2]);
+			t = Integer.parseInt(valores[3]);
+			
+			grafo = new GrafoMatrizNoDirigido(n,null);
+			
+			for(int i = 0; i < m; i++){
+				mensaje = lector.readLine();
+				valores = mensaje.split(" ");
+				v1 = Integer.parseInt(valores[0]);
+				v2 = Integer.parseInt(valores[1]);
+				distancia = Integer.parseInt(valores[2]);
+				grafo.insertaAristaUVA(v1, v2, distancia);
 			}
 			
-	     
-	     System.out.println("Dijkstra" + "\n" + mensaje);
-	     
-	     
-	     String mensaje2 = "";
-	     for (int i = 0; i < floyd.length; i++) {
-    	 for (int j = 0; j < floyd.length; j++) {    		 
-    		 
-    		if(j==floyd.length-1){
-    		mensaje2+=floyd[i][j] + "\n";
-    		}
-    		else{
-    		mensaje2+= floyd[i][j] + " ";
-    		}
+			String out = ""; 
+			int[] caminoMinimo = grafo.dijkstra(grafo.getMatriz(), s);
+			if(caminoMinimo == null || caminoMinimo[t] == grafo.INF){
+				out = "Case #" + x + ":" + " unreachable";
+			}
+			else{
+				out = "Case #" + x + ":" + " " + caminoMinimo[t];
+			}
+			escritor.write(out + "\n");	
 		}
-	     
+		
+		lector.close();
+		escritor.close();
+	
 	}
-	    System.out.println("Floyd" + "\n"+ mensaje2);
-   }
 }
 	
 
