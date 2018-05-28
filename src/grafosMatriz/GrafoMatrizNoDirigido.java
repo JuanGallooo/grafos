@@ -11,12 +11,12 @@ public class GrafoMatrizNoDirigido<T> {
 	
 	private int matriz[][];
 	private int numeroVertices;
-	private Vertice<T>[] listaVertices;
+	private ArrayList<Vertice<T>>listaVertices;
 	
 	
-	public GrafoMatrizNoDirigido(int numVertices, Vertice<T>[] lista){
+	public GrafoMatrizNoDirigido(int numVertices){
 		// TODO Auto-generated constructor stub
-		listaVertices = lista;
+		listaVertices = new ArrayList<Vertice<T>>(); 
 		numeroVertices = numVertices;
 		matriz =  new int[numVertices][numVertices];
         for(int i=0; i< numeroVertices; i++){
@@ -41,13 +41,20 @@ public class GrafoMatrizNoDirigido<T> {
 	}
 	
 	public void insertaArista(int v1, int v2, int dist) throws ArrayIndexOutOfBoundsException {
-			if (v1 > numeroVertices -1 || v2 > numeroVertices-1) {
+	if(listaVertices.size()!=0){
+		if (v1 > numeroVertices -1 || v2 > numeroVertices-1) {
 			throw new ArrayIndexOutOfBoundsException();
 			}
 		    else {
+		    
 			matriz[v1][v2] = dist;
 			matriz[v2][v1] = dist;
 			}
+	   }
+	}
+	
+	public void insertarVertice(T elemento){
+		
 	}
 	public void insertaAristaUVA(int v1, int v2, int dist) throws ArrayIndexOutOfBoundsException {
 		if (v1 > numeroVertices -1 || v2 > numeroVertices-1) {
