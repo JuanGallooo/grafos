@@ -19,13 +19,16 @@ public class Prueba {
 		
 		for(int x = 1; x <= casos; x++){
 			mensaje =lector.readLine();
+			if(mensaje.equals("")){
+				mensaje = lector.readLine();
+			}
 			valores = mensaje.split(" ");
 			n = Integer.parseInt(valores[0]);	
 			m = Integer.parseInt(valores[1]);
 			s = Integer.parseInt(valores[2]);
 			t = Integer.parseInt(valores[3]);
 			
-			grafo = new GrafoMatrizNoDirigido(n,null);
+			grafo = new GrafoMatrizNoDirigido(n);
 			
 			for(int i = 0; i < m; i++){
 				mensaje = lector.readLine();
