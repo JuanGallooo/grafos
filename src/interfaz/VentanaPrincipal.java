@@ -12,42 +12,61 @@ import mundo.Controlador;
 @SuppressWarnings("serial")
 public class VentanaPrincipal extends JFrame{
 
-	private PanelVer panelVer;
-	private PanelOpciones panelOpciones;
+	private PanelVerDark panelVerDark;
+	private PanelVerSending panelVerSending;
+	private PanelOpcionesDark panelOpciones;
+	private PanelOpcionesSending panelOpcionesDos;
 	private Controlador mundo;
 	private int indice;
-	private JPanel panelNuevo;
 	
 	public VentanaPrincipal() {
-		setSize(1550, 1400);
-		setTitle("Problemas UVA");
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setLayout(new BorderLayout());
-		setResizable(true);
-		try {
-		panelNuevo= new JPanel();
 		
+		int confirm= JOptionPane.showOptionDialog(this, "A que porblema desea entrar?", "Uva solutions", JOptionPane.YES_NO_CANCEL_OPTION, 
+				JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Problema DarkRoads","Problema Sending E-Mail","Salir"}, "Problema DarkRoads");
+		if( confirm==0) {
+			setSize(1550, 1400);
+			setTitle("Problemas UVA");
+			setDefaultCloseOperation(EXIT_ON_CLOSE);
+			setLayout(new BorderLayout());
+			setResizable(true);
+			try {
+	        mundo= new Controlador(true);
+			panelVerDark=new PanelVerDark(this);
+			panelVerDark.actualizar(0, true);
+			panelOpciones= new PanelOpcionesDark(this);
+			indice=0;
+			HiloBombilla hilo= new HiloBombilla(this);
+			hilo.start();
+			add(panelVerDark,BorderLayout.CENTER);
+			add(panelOpciones, BorderLayout.SOUTH);
 			
-        mundo= new Controlador();
-		
-		//Dark Roads
-		panelVer=new PanelVer(this);
-		panelVer.actualizar(0, true);
-		panelOpciones= new PanelOpciones(this);
-		indice=0;
-		panelNuevo.add(panelVer,BorderLayout.CENTER);
-		panelNuevo.add(panelOpciones, BorderLayout.SOUTH);
-		HiloBombilla hilo= new HiloBombilla(this);
-		hilo.start();
-		add(panelVer,BorderLayout.CENTER);
-		add(panelOpciones, BorderLayout.SOUTH);
-//		add(panelNuevo,BorderLayout.CENTER);
-		
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, "Error al leer los archivos", "ERROR", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(this, "Error al leer los archivos", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
 		}
+		else if(confirm==1) {
+			setSize(1550, 1400);
+			setTitle("Problemas UVA");
+			setDefaultCloseOperation(EXIT_ON_CLOSE);
+			setLayout(new BorderLayout());
+			setResizable(true);
+			try {
+				mundo= new Controlador(false);
+				panelVerSending= new PanelVerSending(this);
+				panelVerSending.actualizar(0,true);
+				panelOpcionesDos= new PanelOpcionesSending(this);
+				HiloEmail hilo= new HiloEmail(this);
+				hilo.start();
+				add(panelVerSending,BorderLayout.CENTER);
+				add(panelOpcionesDos, BorderLayout.SOUTH);
+				
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(this, "Error al leer los archivos", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		else System.exit(0);
 	}
+	
 	public static void main(String[] args) {
 		VentanaPrincipal ventana= new VentanaPrincipal();
 		ventana.setVisible(true);
@@ -58,25 +77,47 @@ public class VentanaPrincipal extends JFrame{
 	public void setMundo(Controlador mundo) {
 		this.mundo = mundo;
 	}
-	public void repintarPanelVer() {
-		panelVer.repaint();
+	public void repintarPanelVerDark() {
+		panelVerDark.repaint();
 	}
 	public void problemaAnterior1() {
 		indice--;
 		if(indice<0)indice=mundo.darkRoads().getGrafos().size()-1;
-		panelVer.actualizar(indice, true);
+		panelVerDark.actualizar(indice, true);
 	}
 	public void problemaOriginal1() {
-		panelVer.actualizar(indice, true);
+		panelVerDark.actualizar(indice, true);
 	}
 	public void problemaAhorrativo1() {
-		panelVer.actualizar(indice, false);
+		panelVerDark.actualizar(indice, false);
 	}
 	public void problemaSiguiente1() {
 		indice++;
 		if((indice==mundo.darkRoads().getGrafos().size())) {
 			indice=0;
 		}
-		panelVer.actualizar(indice, true);
+		panelVerDark.actualizar(indice, true);
+	}
+	public void reiniciar() {
+		this.setVisible(false);
+		this.dispose();
+		main(null);		
+	}
+
+	public void problemaAnterior2() {
+		indice--;
+		if(indice<0)indice=mundo.getSending().getGrafos().size()-1;
+		panelVerSending.actualizar(indice, true);
+	}
+	public void problemaSiguiente2() {
+		indice++;
+		if((indice==mundo.getSending().getGrafos().size())) {
+			indice=0;
+		}
+		panelVerSending.actualizar(indice, true);
+	}
+
+	public void repintarPanelVerSending() {
+		panelVerSending.repaint();
 	}
 }
