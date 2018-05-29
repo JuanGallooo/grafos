@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
+import javax.print.attribute.standard.NumberOfDocuments;
+
 import auxiliares.ColaPrioridad;
 
 public class GrafoMatrizNoDirigido<T> {
 	
 	public final static int INF = 9999999;
 	
-	private int matriz[][];
+	private int matrizPeso[][];
 	private int matrizAdy[][];
 	private int numeroVertices;
 	private int posFinal;
@@ -24,16 +26,16 @@ public class GrafoMatrizNoDirigido<T> {
 		numeroVertices = numVertices;
 		posFinal = 0;
 	    map = new HashMap<T,Integer>();
-		matriz =  new int[numVertices][numVertices];
+		matrizPeso =  new int[numVertices][numVertices];
 		matrizAdy = new int[numVertices][numVertices];
         for(int i=0; i< numeroVertices; i++){
             for(int j=0; j< numeroVertices; j++){
             	if(i==j){
-            		matriz[i][j] =0;
+            		matrizPeso[i][j] =0;
             	}
             	else{
             		matrizAdy[i][j] = 0;
-            		matriz[i][j] = INF;		
+            		matrizPeso[i][j] = INF;		
             	}
             }            
         }
@@ -41,6 +43,42 @@ public class GrafoMatrizNoDirigido<T> {
 	
 	
 	
+	public int getNumeroVertices() {
+		return numeroVertices;
+	}
+
+
+
+	public void setNumeroVertices(int numeroVertices) {
+		this.numeroVertices = numeroVertices;
+	}
+
+
+
+	public HashMap<T, Integer> getMap() {
+		return map;
+	}
+
+
+
+	public void setMap(HashMap<T, Integer> map) {
+		this.map = map;
+	}
+
+
+
+	public ArrayList<Vertice<T>> getListaVertices() {
+		return listaVertices;
+	}
+
+
+
+	public void setListaVertices(ArrayList<Vertice<T>> listaVertices) {
+		this.listaVertices = listaVertices;
+	}
+
+
+
 	public int getPosFinal() {
 		return posFinal;
 	}
@@ -53,14 +91,28 @@ public class GrafoMatrizNoDirigido<T> {
 
 
 
-	public int[][] getMatriz() {
-		return matriz;
+	public int[][] getMatrizPeso() {
+		return matrizPeso;
 	}
 
-	public void setMatriz(int[][] matriz) {
-		this.matriz = matriz;
+	public void setMatrizPeso(int[][] matriz) {
+		this.matrizPeso = matriz;
 	}
 	
+	
+	
+	public int[][] getMatrizAdy() {
+		return matrizAdy;
+	}
+
+
+
+	public void setMatrizAdy(int[][] matrizAdy) {
+		this.matrizAdy = matrizAdy;
+	}
+
+
+
 	public void insertaArista(int v1, int v2, int dist) throws ArrayIndexOutOfBoundsException {
 	if(listaVertices.size()!=0){
 		if (v1 > numeroVertices -1 || v2 > numeroVertices-1) {
@@ -68,8 +120,11 @@ public class GrafoMatrizNoDirigido<T> {
 			}
 		    else {
 		    
-			matriz[v1][v2] = dist;
-			matriz[v2][v1] = dist;
+			matrizPeso[v1][v2] = dist;
+			matrizPeso[v2][v1] = dist;
+			matrizAdy[v1][v2] = 1;
+			matrizAdy[v2][v1] = 1;
+			
 			}
 	   }
 	}
@@ -88,9 +143,9 @@ public class GrafoMatrizNoDirigido<T> {
 		if (v1 > numeroVertices -1 || v2 > numeroVertices-1) {
 		throw new ArrayIndexOutOfBoundsException();
 		}
-	    else if(dist < matriz[v1][v2]) {
-		matriz[v1][v2] = dist;
-		matriz[v2][v1] = dist;
+	    else if(dist < matrizPeso[v1][v2]) {
+		matrizPeso[v1][v2] = dist;
+		matrizPeso[v2][v1] = dist;
 		}
 }
 	
@@ -103,8 +158,8 @@ public class GrafoMatrizNoDirigido<T> {
 	    if(temp != null){
 	    	Integer temp2 = map.get(elemento2);
 	    	if(temp2 != null){
-	    		matriz[temp][temp2] = INF;
-	    		matriz[temp2][temp] = INF;
+	    		matrizPeso[temp][temp2] = INF;
+	    		matrizPeso[temp2][temp] = INF;
 	    		matrizAdy[temp][temp2] = 0;
 	    		matrizAdy[temp2][temp] = 0;		
 	    	}
@@ -113,7 +168,6 @@ public class GrafoMatrizNoDirigido<T> {
 	public void eliminarVertice(T elemento){
 	    Integer temp = map.get(elemento);
 	    if(temp != null){
-	     listaVertices.remove(temp);
 	     int[][] nueva = new int[numeroVertices-1][numeroVertices-1];
 	     int[][] nuevaAdy = new int[numeroVertices-1][numeroVertices-1];
 	     map.remove(elemento);
@@ -121,6 +175,7 @@ public class GrafoMatrizNoDirigido<T> {
 	    	 if(i > temp.intValue()){
 	    		 T elementoTemp = listaVertices.get(i).getElemento();
 	    		 int posNueva = i-1;
+	    		 listaVertices.get(i).setPosicion(posNueva);
 	    		 map.remove(elementoTemp);
 	    		 map.put(elementoTemp, posNueva);    		 
 	    	 }
@@ -129,19 +184,35 @@ public class GrafoMatrizNoDirigido<T> {
 				
 				}
 				else{
-					if(i == nueva.length || j == nueva.length){
-					   nueva[i-1][j-1] = matriz[i][j];
-					   nuevaAdy[i-1][j-1] = matrizAdy[i][j];
+					if(i< temp.intValue()){
+						if(j < temp.intValue()){
+							nueva[i][j] = matrizPeso[i][j];
+							nuevaAdy[i][j] = matrizAdy[i][j];
+						}
+						else{
+							nueva[i][j-1] = matrizPeso[i][j];
+							nuevaAdy[i][j-1] = matrizAdy[i][j];
+						}
 					}
 					else{
-						nueva[i][j] = matriz[i][j];
-						nuevaAdy[i][j] = matrizAdy[i][j];
+						if(j < temp.intValue()){
+							nueva[i-1][j] = matrizPeso[i][j];
+							nuevaAdy[i-1][j] = matrizAdy[i][j];
+						}
+						else{
+						nueva[i-1][j-1] = matrizPeso[i][j];
+						nuevaAdy[i-1][j-1] = matrizAdy[i][j];
+						}
 					}
-				}
-			}
-		}
+			    }
+		   }
 	  }
+	    listaVertices.remove(temp.intValue());
+	    matrizPeso = nueva;
+	    matrizAdy = nuevaAdy;
 	    posFinal--;
+	    numeroVertices--;
+	  }
 	}
 		
 	public ArrayList<Vertice<T>> bfs(T elemento){
@@ -238,7 +309,42 @@ public class GrafoMatrizNoDirigido<T> {
 			
 		}
 		return distancias;
-	   }
+}
+	public int[] dijkstraCamino(int[][] peso, int origen){
+		int temporal,temporal2;
+		int numVertices = peso.length;		
+		boolean visto[] =  new boolean[numVertices];
+		int[] distancias = new int[numVertices];
+		int[] aux = new int[numVertices];
+		
+		for(int i = 0; i < numVertices; i++){
+			visto[i] = false;
+			aux[i] = -1;
+			distancias[i] = INF;
+		}
+		distancias[origen] = 0;
+		PriorityQueue<Integer> colaVisitados =  new PriorityQueue<Integer>();
+		colaVisitados.add(distancias[origen]+origen);
+		while(!colaVisitados.isEmpty()){
+			int actual = colaVisitados.poll();
+			visto[actual] = true;
+			for(int v = 0; v < numVertices; v++){
+			int visualizar =peso[actual][v];
+			visualizar = distancias[v];
+			if(peso[origen][v] != 0){
+				temporal = distancias[v];
+				temporal2 = distancias[actual] + peso[actual][v];
+				if( temporal > temporal2 ){
+					distancias[v] = distancias[actual] + peso[actual][v];
+					aux[v] = actual;
+					colaVisitados.add(v);
+				}	
+			 }
+			}
+			
+		}
+		return aux;
+}
 	public Vertice<T> buscarElemento (T elemento){
 		Integer buscado = map.get(elemento);
 	     if(buscado!=null){
@@ -247,6 +353,9 @@ public class GrafoMatrizNoDirigido<T> {
 		return null;
 	}
 	public Vertice<T> buscarElemento (int i){
+		if(i < numeroVertices){
+			return listaVertices.get(i);
+		}
 		return null;
 		
 	}
