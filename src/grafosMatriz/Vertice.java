@@ -6,7 +6,7 @@ public class Vertice<T> {
     private HashMap<Object, Arista<T>> aristas;
     private int posicion;
 	
-	public Vertice(T elemento, int numAristas) {
+	public Vertice(T elemento) {
 		super();
 		visitado= false;
 		this.elemento = elemento;
@@ -17,7 +17,12 @@ public class Vertice<T> {
 	public void setElemento(T elemento) {
 		this.elemento = elemento;
 	}
-	
+	public int getPosicion() {
+		return posicion;
+	}
+	public void setPosicion(int posicion) {
+		this.posicion = posicion;
+	}
 	public boolean insertarArista(Arista<T> arista) {
 		Arista<T> actual = aristas.get(arista.getPeso());
 		if (actual != null){ // Ya existe la arista

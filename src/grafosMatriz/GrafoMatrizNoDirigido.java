@@ -1,6 +1,7 @@
 package grafosMatriz;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.PriorityQueue;
 
 import auxiliares.ColaPrioridad;
@@ -10,7 +11,10 @@ public class GrafoMatrizNoDirigido<T> {
 	public final static int INF = 9999999;
 	
 	private int matriz[][];
+	private int matrizAdy[][];
 	private int numeroVertices;
+	private int posFinal;
+	private HashMap<T, Integer> map;
 	private ArrayList<Vertice<T>>listaVertices;
 	
 	
@@ -18,20 +22,37 @@ public class GrafoMatrizNoDirigido<T> {
 		// TODO Auto-generated constructor stub
 		listaVertices = new ArrayList<Vertice<T>>(); 
 		numeroVertices = numVertices;
+		posFinal = 0;
+	    map = new HashMap<T,Integer>();
 		matriz =  new int[numVertices][numVertices];
+		matrizAdy = new int[numVertices][numVertices];
         for(int i=0; i< numeroVertices; i++){
             for(int j=0; j< numeroVertices; j++){
             	if(i==j){
             		matriz[i][j] =0;
             	}
-            	else
-                matriz[i][j] = INF;
+            	else{
+            		matrizAdy[i][j] = 0;
+            		matriz[i][j] = INF;		
+            	}
             }            
         }
     }
 	
 	
 	
+	public int getPosFinal() {
+		return posFinal;
+	}
+
+
+
+	public void setPosFinal(int posFinal) {
+		this.posFinal = posFinal;
+	}
+
+
+
 	public int[][] getMatriz() {
 		return matriz;
 	}
@@ -54,7 +75,14 @@ public class GrafoMatrizNoDirigido<T> {
 	}
 	
 	public void insertarVertice(T elemento){
-		
+		Integer verificar = map.get(elemento);
+		if(verificar == null){
+			Vertice<T> nuevo =  new Vertice<T>(elemento);
+			listaVertices.add(nuevo);
+			nuevo.setPosicion(posFinal);
+			map.put(elemento, posFinal);
+			posFinal++;
+		}	
 	}
 	public void insertaAristaUVA(int v1, int v2, int dist) throws ArrayIndexOutOfBoundsException {
 		if (v1 > numeroVertices -1 || v2 > numeroVertices-1) {
@@ -66,36 +94,56 @@ public class GrafoMatrizNoDirigido<T> {
 		}
 }
 	
-	public int buscarIndiceMatriz(T elemento){
-		boolean encontro = false;
-		int numEncontrado = 0;
-	     for(int i=0; i< numeroVertices && !encontro; i++){
-	    	 if(elemento.equals(listaVertices[i])){
-	    		 encontro = true;
-	    		 numEncontrado = i;
+	public Integer buscarIndiceMatriz(T elemento){
+		Integer retorno = map.get(elemento);
+		return retorno;
+	}
+	public void eliminarArista(T elemento1, T elemento2){
+	    Integer temp = map.get(elemento1);
+	    if(temp != null){
+	    	Integer temp2 = map.get(elemento2);
+	    	if(temp2 != null){
+	    		matriz[temp][temp2] = INF;
+	    		matriz[temp2][temp] = INF;
+	    		matrizAdy[temp][temp2] = 0;
+	    		matrizAdy[temp2][temp] = 0;		
+	    	}
+	    }
+	}
+	public void eliminarVertice(T elemento){
+	    Integer temp = map.get(elemento);
+	    if(temp != null){
+	     listaVertices.remove(temp);
+	     int[][] nueva = new int[numeroVertices-1][numeroVertices-1];
+	     int[][] nuevaAdy = new int[numeroVertices-1][numeroVertices-1];
+	     map.remove(elemento);
+	     for (int i = 0; i <numeroVertices; i++) {
+	    	 if(i > temp.intValue()){
+	    		 T elementoTemp = listaVertices.get(i).getElemento();
+	    		 int posNueva = i-1;
+	    		 map.remove(elementoTemp);
+	    		 map.put(elementoTemp, posNueva);    		 
 	    	 }
-	     }
-	     if(encontro){
-	    	 return numEncontrado;
-	     }
-	     else{
-	    	 return -1;
-	     }   
+			for (int j = 0; j < numeroVertices; j++) {
+				if(i == temp.intValue() || j == temp.intValue()){
+				
+				}
+				else{
+					if(i == nueva.length || j == nueva.length){
+					   nueva[i-1][j-1] = matriz[i][j];
+					   nuevaAdy[i-1][j-1] = matrizAdy[i][j];
+					}
+					else{
+						nueva[i][j] = matriz[i][j];
+						nuevaAdy[i][j] = matrizAdy[i][j];
+					}
+				}
+			}
+		}
+	  }
+	    posFinal--;
 	}
-	
-	public void insertarVertice(Vertice<T> n){
 		
-	}
-	
-	public boolean contieneLaArtista(AristaNoDirigida<T> n){
-		return true;
-	}
-	public AristaNoDirigida<T> eliminarArista(T elemento1, T elemento2){
-		return null;
-	}
-	public Vertice<T> eliminarVertice(T elemento){
-		return null;
-	}
 	public ArrayList<Vertice<T>> bfs(T elemento){
 		return null;
 	}
@@ -191,7 +239,17 @@ public class GrafoMatrizNoDirigido<T> {
 		}
 		return distancias;
 	   }
-	
+	public Vertice<T> buscarElemento (T elemento){
+		Integer buscado = map.get(elemento);
+	     if(buscado!=null){
+	    	 return listaVertices.get(buscado.intValue());
+	     }
+		return null;
+	}
+	public Vertice<T> buscarElemento (int i){
+		return null;
+		
+	}
 	public int[] transformacionArrayList(ArrayList<Integer> aristasMultiples){
 		int[] retorno = new int[aristasMultiples.size()];
 		for (int i = 0; i < aristasMultiples.size(); i++) {
@@ -200,28 +258,6 @@ public class GrafoMatrizNoDirigido<T> {
 		return retorno;
 	}
 
-	
-	public int buscarMinimoR(int[] distancias, int i, int j ){
-		if(i==j || j == i+1){
-			return Math.min(distancias[i], distancias[j]);
-		}
-		else{
-			int m = (i+j)/2;
-			int izq = buscarMinimoR(distancias, i, m);
-			int der =buscarMinimoR(distancias, m+1, j);
-			return Math.min(izq, der);	
-		}
-		
-		
-	    
-	}
-	public int buscarMinimo(int[] distancias){
-	    int minimo = buscarMinimoR(distancias, 0, distancias.length-1);
-	    return minimo;
-	}
-
-	
-	
 	public int[][] floydWarshall (int [][] matrizPeso){
 		int vertices = matrizPeso.length;
 		int matrizAdyacencia[][] =  matrizPeso;
