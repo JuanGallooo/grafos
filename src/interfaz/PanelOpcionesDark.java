@@ -9,23 +9,25 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-public class PanelOpciones extends JPanel implements ActionListener{
+public class PanelOpcionesDark extends JPanel implements ActionListener{
 	public static final String SIGUIENTE="SIGUIENTE";
 	public static final String ANTERIOR="ANTERIOR";
 	public static final String ORIGINAL="ORIGINAL";
 	public static final String AHORRATIVO="AHORRATIVO";
+	public static final String SENDINGMAIL="SENDINGMAIL";
 	
 	private JButton btnSiguiente;
 	private JButton btnAnterior;
 	private JButton btnOriginal;
 	private JButton btnAhorrativo;
+	private JButton btnSending;
 	
 	private VentanaPrincipal principal;
 	
-	public PanelOpciones(VentanaPrincipal p) {
+	public PanelOpcionesDark(VentanaPrincipal p) {
 		principal= p;
 		TitledBorder borde= new TitledBorder("Opciones");
-		setLayout(new GridLayout(1, 4));
+		setLayout(new GridLayout(1, 5));
 	    setBorder(borde);
 	    
 	    btnSiguiente= new JButton("Siguiente");
@@ -40,10 +42,14 @@ public class PanelOpciones extends JPanel implements ActionListener{
 	    btnAhorrativo= new JButton("Caminos Ahorrativos");
 	    btnAhorrativo.addActionListener(this);
 	    btnAhorrativo.setActionCommand(AHORRATIVO);
+	    btnSending= new JButton("Problema Sending E-mail");
+	    btnSending.addActionListener(this);
+	    btnSending.setActionCommand(SENDINGMAIL);
 	    
 	    add(btnAnterior);
 	    add(btnOriginal);
 	    add(btnAhorrativo);
+	    add(btnSending);
 	    add(btnSiguiente);
 	}
 
@@ -54,6 +60,7 @@ public class PanelOpciones extends JPanel implements ActionListener{
 		else if(accion.equals(ORIGINAL)) principal.problemaOriginal1();
 		else if( accion.equals(AHORRATIVO)) principal.problemaAhorrativo1();
 		else if( accion.equals(SIGUIENTE)) principal.problemaSiguiente1();
+		else if( accion.equals(SENDINGMAIL)) principal.reiniciar();
 	}
 
 }

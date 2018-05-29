@@ -17,7 +17,7 @@ import grafosLista.AristaNoDirigida;
 import grafosLista.Vertice;
 
 @SuppressWarnings("serial")
-public class PanelVer extends JPanel{
+public class PanelVerDark extends JPanel{
 	
 	private ImageIcon icono;
 	private HashMap<Vertice<String>, String> duplas;
@@ -28,7 +28,7 @@ public class PanelVer extends JPanel{
 	private boolean todo;
 	int indiceSolucion=0;
 	
-	public PanelVer(VentanaPrincipal p) {
+	public PanelVerDark(VentanaPrincipal p) {
 		setSize(1550, 1400);
 		principal=p;
 		indiceSolucion=-1;

@@ -10,7 +10,6 @@ public class Prueba {
 	public static void main(String[] args) throws IOException {
 		
 //		GrafoMatrizNoDirigido<String> grafo = new GrafoMatrizNoDirigido<>(4);
-		
 //		String uno = "uno";
 //		String dos = "dos";
 //		String tres = "tres";
