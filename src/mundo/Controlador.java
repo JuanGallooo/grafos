@@ -13,7 +13,7 @@ public class Controlador {
 		}
 		else {
 			sending= new SendingMail();
-			sending.crearGrafo("./ArchivosSendingEmails/TextPruebas/Sending_Emails_prueba2-Entrada"+".txt");
+			sending.crearGrafo("./ArchivosSendingEmails/TextPruebas/Sending_Emails_prueba1-Entrada"+".txt");
 		}
 	}
 	public DarkRoads darkRoads() {

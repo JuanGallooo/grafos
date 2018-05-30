@@ -127,10 +127,39 @@ public class GrafoListasNoDirigido<T extends Comparable<?>> extends GrafoListasD
 		LinkedList<Vertice<T>> vertices = dijkstra.destinoFinal(getVertices().get(finalidad));
 		return vertices;
 	}
-	public int dijkstraDistancia(String inicio, String finalidad) {
-		DijkstraListaAdyacencia<T> dijkstra = new DijkstraListaAdyacencia<T>(this);
-		dijkstra.inicio(getVertices().get(inicio));
-		return dijkstra.getDistanciaMinima(getVertices().get(finalidad));
+	public int[] dijkstraDistancia(int origen) {
+		int[][] peso= this.getMatrizPeso();
+		int temporal,temporal2;
+		int numVertices = peso.length;		
+		boolean visto[] =  new boolean[numVertices];
+		int[] distancias = new int[numVertices];
+		int[] aux = new int[numVertices];
+		
+		for(int i = 0; i < numVertices; i++){
+			visto[i] = false;
+			aux[i] = -1;
+			distancias[i] = Integer.MAX_VALUE;
+		}
+		distancias[origen] = 0;
+		PriorityQueue<Integer> colaVisitados =  new PriorityQueue<Integer>();
+		colaVisitados.add(distancias[origen]+origen);
+		while(!colaVisitados.isEmpty()){
+			int actual = colaVisitados.poll();
+			visto[actual] = true;
+			for(int v = 0; v < numVertices; v++){
+			if(peso[origen][v] != 0){
+				temporal = distancias[v];
+				temporal2 = distancias[actual] + peso[actual][v];
+				if( temporal > temporal2 ){
+					distancias[v] = distancias[actual] + peso[actual][v];
+					aux[v] = actual;
+					colaVisitados.add(v);
+				}	
+			 }
+			}
+			
+		}
+		return distancias;
 	}
 	public int[][] floydWarshall (){
 		int [][] matrizPeso= getMatrizPeso();
