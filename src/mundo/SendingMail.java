@@ -53,7 +53,7 @@ public class SendingMail {
 				}
 				grafos.add(grafo);
 				String out = "La solución del "; 
-				int[] caminoMinimo = grafo.dijkstra(grafo.getMatriz(), s);
+				int[] caminoMinimo = grafo.dijkstra(grafo.getMatrizPeso(), s);
 				if(caminoMinimo == null || caminoMinimo[t] == GrafoMatrizNoDirigido.INF){
 					out += "Caso #" + x + ":" + " unreachable";
 				}

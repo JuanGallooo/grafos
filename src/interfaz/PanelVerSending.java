@@ -37,7 +37,7 @@ public class PanelVerSending extends JPanel{
 		this.indiceSolucion=indiceSolucion;
 		
 		GrafoMatrizNoDirigido<Integer> grafo= principal.getMundo().getSending().getGrafos().get(indiceSolucion);
-		matriz= grafo.getMatriz();
+		matriz= grafo.getMatrizPeso();
 		sYt= principal.getMundo().getSending().getsYt().get(indiceSolucion);
 		Random aleatorio = new Random(System.currentTimeMillis());
 		icono=new ImageIcon("./ArchivosSendingEmails/imagenes/email2.gif"); 
