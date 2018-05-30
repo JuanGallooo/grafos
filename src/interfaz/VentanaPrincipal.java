@@ -21,7 +21,7 @@ public class VentanaPrincipal extends JFrame{
 		int confirm= JOptionPane.showOptionDialog(this, "A que porblema desea entrar?", "Uva solutions", JOptionPane.YES_NO_CANCEL_OPTION, 
 				JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Problema DarkRoads","Problema Sending E-Mail","Salir"}, "Problema DarkRoads");
 		if( confirm==0) {
-			setSize(1100, 1000);
+			setSize(1100, 700);
 			setTitle("Problemas UVA");
 			setDefaultCloseOperation(EXIT_ON_CLOSE);
 			setLayout(new BorderLayout());
