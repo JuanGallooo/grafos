@@ -127,6 +127,11 @@ public class GrafoListasNoDirigido<T extends Comparable<?>> extends GrafoListasD
 		LinkedList<Vertice<T>> vertices = dijkstra.destinoFinal(getVertices().get(finalidad));
 		return vertices;
 	}
+	public int dijkstraDistancia(String inicio, String finalidad) {
+		DijkstraListaAdyacencia<T> dijkstra = new DijkstraListaAdyacencia<T>(this);
+		dijkstra.inicio(getVertices().get(inicio));
+		return dijkstra.getDistanciaMinima(getVertices().get(finalidad));
+	}
 	public int[][] floydWarshall (){
 		int [][] matrizPeso= getMatrizPeso();
 		int vertices = matrizPeso.length;
