@@ -1,59 +1,218 @@
 package grafosMatriz;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GrafoMatrizDirigido<T> {
-	private int matriz[][];
+	public final static int INF = 9999999;
+	private int matrizPeso[][];
+	private int matrizAdy[][];
 	private int numeroVertices;
-	private Vertice<T>[] listaVertices;
+	private int posFinal;
+	private HashMap<T, Integer> map;
+	private ArrayList<Vertice<T>>listaVertices;
 	
-	
-	public GrafoMatrizDirigido(int numVertices, Vertice<T>[] lista){
+	public GrafoMatrizDirigido(int numVertices){
 		// TODO Auto-generated constructor stub
-		listaVertices = lista;
+		listaVertices = new ArrayList<Vertice<T>>(); 
 		numeroVertices = numVertices;
-		matriz =  new int[numVertices][numVertices];
+		posFinal = 0;
+	    map = new HashMap<T,Integer>();
+		matrizPeso =  new int[numVertices][numVertices];
+		matrizAdy = new int[numVertices][numVertices];
         for(int i=0; i< numeroVertices; i++){
             for(int j=0; j< numeroVertices; j++){
-                matriz[i][j] = 0;
+            	if(i==j){
+            		matrizPeso[i][j] =0;
+            	}
+            	else{
+            		matrizAdy[i][j] = 0;
+            		matrizPeso[i][j] = INF;		
+            	}
             }            
         }
     }
 	
-	public void insertarArista(T elemento1, T elemento){
-		
- 
+	public int getNumeroVertices() {
+		return numeroVertices;
+	}
+
+
+
+	public void setNumeroVertices(int numeroVertices) {
+		this.numeroVertices = numeroVertices;
+	}
+
+
+
+	public HashMap<T, Integer> getMap() {
+		return map;
+	}
+
+
+
+	public void setMap(HashMap<T, Integer> map) {
+		this.map = map;
+	}
+
+
+
+	public ArrayList<Vertice<T>> getListaVertices() {
+		return listaVertices;
+	}
+
+
+
+	public void setListaVertices(ArrayList<Vertice<T>> listaVertices) {
+		this.listaVertices = listaVertices;
+	}
+
+
+
+	public int getPosFinal() {
+		return posFinal;
+	}
+
+
+
+	public void setPosFinal(int posFinal) {
+		this.posFinal = posFinal;
+	}
+
+
+
+	public int[][] getMatrizPeso() {
+		return matrizPeso;
+	}
+
+	public void setMatrizPeso(int[][] matriz) {
+		this.matrizPeso = matriz;
 	}
 	
-	public int buscarIndiceMatriz(T elemento){
-		boolean encontro = false;
-		int numEncontrado = 0;
-	     for(int i=0; i< numeroVertices && !encontro; i++){
-	    	 if(elemento.equals(listaVertices[i])){
-	    		 encontro = true;
-	    		 numEncontrado = i;
+	
+	
+	public int[][] getMatrizAdy() {
+		return matrizAdy;
+	}
+
+
+
+	public void setMatrizAdy(int[][] matrizAdy) {
+		this.matrizAdy = matrizAdy;
+	}
+
+
+
+	public void insertaArista(int v1, int v2, int dist) throws ArrayIndexOutOfBoundsException {
+	if(listaVertices.size()!=0){
+		if (v1 > numeroVertices -1 || v2 > numeroVertices-1) {
+			throw new ArrayIndexOutOfBoundsException();
+			}
+		    else {
+		    
+			matrizPeso[v1][v2] = dist;
+			matrizAdy[v1][v2] = 1;
+
+			
+			}
+	   }
+	}
+	
+	public void insertarVertice(T elemento){
+		Integer verificar = map.get(elemento);
+		if(verificar == null){
+			Vertice<T> nuevo =  new Vertice<T>(elemento);
+			listaVertices.add(nuevo);
+			nuevo.setPosicion(posFinal);
+			map.put(elemento, posFinal);
+			posFinal++;
+			numeroVertices++;
+		}
+		if(posFinal == matrizPeso.length){
+			aumentarMatriz();
+		}
+	}
+	
+	public Integer buscarIndiceMatriz(T elemento){
+		Integer retorno = map.get(elemento);
+		return retorno;
+	}
+	public void eliminarArista(T elemento1, T elemento2){
+	    Integer temp = map.get(elemento1);
+	    if(temp != null){
+	    	Integer temp2 = map.get(elemento2);
+	    	if(temp2 != null){
+	    		matrizPeso[temp][temp2] = INF;
+	    		matrizAdy[temp][temp2] = 0;	
+	    	}
+	    }
+	}
+	public void eliminarVertice(T elemento){
+	    Integer temp = map.get(elemento);
+	    if(temp != null){
+	     int[][] nueva = new int[numeroVertices-1][numeroVertices-1];
+	     int[][] nuevaAdy = new int[numeroVertices-1][numeroVertices-1];
+	     map.remove(elemento);
+	     for (int i = 0; i <numeroVertices; i++) {
+	    	 if(i > temp.intValue()){
+	    		 T elementoTemp = listaVertices.get(i).getElemento();
+	    		 int posNueva = i-1;
+	    		 listaVertices.get(i).setPosicion(posNueva);
+	    		 map.remove(elementoTemp);
+	    		 map.put(elementoTemp, posNueva);    		 
 	    	 }
-	     }
-	     if(encontro){
-	    	 return numEncontrado;
-	     }
-	     else{
-	    	 return -1;
-	     }   
+			for (int j = 0; j < numeroVertices; j++) {
+				if(i == temp.intValue() || j == temp.intValue()){
+				
+				}
+				else{
+					if(i< temp.intValue()){
+						if(j < temp.intValue()){
+							nueva[i][j] = matrizPeso[i][j];
+							nuevaAdy[i][j] = matrizAdy[i][j];
+						}
+						else{
+							nueva[i][j-1] = matrizPeso[i][j];
+							nuevaAdy[i][j-1] = matrizAdy[i][j];
+						}
+					}
+					else{
+						if(j < temp.intValue()){
+							nueva[i-1][j] = matrizPeso[i][j];
+							nuevaAdy[i-1][j] = matrizAdy[i][j];
+						}
+						else{
+						nueva[i-1][j-1] = matrizPeso[i][j];
+						nuevaAdy[i-1][j-1] = matrizAdy[i][j];
+						}
+					}
+			    }
+		   }
+	  }
+	    listaVertices.remove(temp.intValue());
+	    matrizPeso = nueva;
+	    matrizAdy = nuevaAdy;
+	    posFinal--;
+	    numeroVertices--;
+	  }
 	}
-	
-	public void insertarVertice(Vertice<T> n){
+		
+	public Vertice<T> buscarElemento (T elemento){
+		Integer buscado = map.get(elemento);
+		if(buscado!=null){
+			return listaVertices.get(buscado.intValue());
+		}
+		return null;
+	}
+	public Vertice<T> buscarElemento (int i){
+		if(i < numeroVertices){
+			return listaVertices.get(i);
+		}
+		return null;
 		
 	}
-	
-	public boolean contieneLaArtista(AristaNoDirigida<T> n){
+	public boolean contieneLaArtista(T elemento){
 		return true;
-	}
-	public AristaNoDirigida<T> eliminarArista(T elemento1, T elemento2){
-		return null;
-	}
-	public Vertice<T> eliminarVertice(T elemento){
-		return null;
 	}
 	public ArrayList<Vertice<T>> bfs(T elemento){
 		return null;
@@ -84,4 +243,28 @@ public class GrafoMatrizDirigido<T> {
 			
 		return matrizAdyacencia;
 	}
+	
+	public void aumentarMatriz(){
+		int[][] nuevaPeso = new int[numeroVertices+1][numeroVertices+1];
+		int[][] nuevaAdy = new int[numeroVertices+1][numeroVertices+1];
+		
+		for (int i = 0; i < nuevaAdy.length; i++) {
+			for (int j = 0; j < nuevaAdy.length; j++) {
+				if(i < nuevaPeso.length-1 && j < nuevaPeso.length-1){
+					nuevaPeso[i][j] = matrizPeso[i][j];
+					nuevaAdy[i][j] = matrizAdy[i][j];
+				}
+				else{
+					if(i== nuevaAdy.length-1 && j== nuevaAdy.length-1){
+						nuevaPeso[i][j] = 0;
+					}
+					else{
+						nuevaPeso[i][j] = INF;
+					}
+				}
+			}
+		}
+		
+	}
+
 }

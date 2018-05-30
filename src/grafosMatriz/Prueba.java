@@ -9,11 +9,14 @@ import java.io.OutputStreamWriter;
 public class Prueba {
 
 	public static void main(String[] args) throws IOException {
-		BufferedReader lector =  new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter escritor = new BufferedWriter(new OutputStreamWriter(System.out));
-		
-		String mensaje = lector.readLine();
-		String[] valores  = mensaje.split(" ");
-		
+		BufferedReader io= new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter rc= new BufferedWriter(new OutputStreamWriter(System.out));
+		String mensaje= io.readLine();
+		String[] split= mensaje.split(" ");
+		while (!split[0].equals("0") && !split[1].equals("0")) {
+			int roads = Integer.parseInt(split[1]);
+			
+			
+	     }
 	}
 }
