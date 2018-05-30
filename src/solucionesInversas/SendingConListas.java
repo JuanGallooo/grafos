@@ -43,12 +43,12 @@ public class SendingConListas {
 						if(grafo.getVertice(v2+"")== null) grafo.insertarVertice(new Vertice<Integer>(v2));
 						grafo.insertarArista(v1+"", v2+"", distancia);
 					}
-					int caminoMinimo=grafo.dijkstraDistancia(s+"", t+"");
-					if(caminoMinimo==Integer.MAX_VALUE){
+					int[] caminosMinimos=grafo.dijkstraDistancia(s);
+					if(caminosMinimos==null||caminosMinimos[t]==Integer.MAX_VALUE){
 						out = "Case #" + x + ":" + " unreachable";
 					   }
 					else{
-						out = "Case #" + x + ":" + " " + caminoMinimo;
+						out = "Case #" + x + ":" + " " + caminosMinimos[t];
 					  }
 				} catch (Exception e) {
 					out = "Case #" + x + ":" + " unreachable";
