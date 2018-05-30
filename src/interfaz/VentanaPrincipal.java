@@ -42,7 +42,7 @@ public class VentanaPrincipal extends JFrame{
 			}
 		}
 		else if(confirm==1) {
-			setSize(1200, 1000);
+			setSize(1100, 700);
 			setTitle("Problemas UVA");
 			setDefaultCloseOperation(EXIT_ON_CLOSE);
 			setLayout(new BorderLayout());

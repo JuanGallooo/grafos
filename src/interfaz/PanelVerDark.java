@@ -44,8 +44,8 @@ public class PanelVerDark extends JPanel{
 		icono=new ImageIcon("./ArchivosDarkRoads/imagenes/bombilla.gif"); 
 		duplas= new HashMap<Vertice<String>, String>();
 		for (int i = 0; i < todas.size(); i++) {
-				int x= aleatorio.nextInt(650)+100;
-				int y= aleatorio.nextInt(650)+100;
+				int x= aleatorio.nextInt(900)+100;
+				int y= aleatorio.nextInt(450)+100;
 				String dupla= x+" "+y;
 				duplas.put(todas.get(i), dupla);
 		}
@@ -79,7 +79,7 @@ public class PanelVerDark extends JPanel{
 					colores.add(randomColor);
 				}
 				g2d.setColor(colores.get(j));
-				g2d.setStroke(new BasicStroke(3));
+				g2d.setStroke(new BasicStroke(2));
 			    g2d.drawLine(xa, ya, xd, yd);
 			    g2d.setColor(Color.BLACK);
 			    g.setFont( new Font( "Tahoma", Font.BOLD, 15 ) );

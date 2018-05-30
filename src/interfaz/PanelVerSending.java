@@ -44,8 +44,8 @@ public class PanelVerSending extends JPanel{
 		duplas= new HashMap<Integer, String>();
 		
 		for (int i = 0; i < matriz.length; i++) {
-				int x= aleatorio.nextInt(600)+100;
-				int y= aleatorio.nextInt(600)+100;
+				int x= aleatorio.nextInt(900)+50;
+				int y= aleatorio.nextInt(400)+100;
 				String dupla= x+" "+y;
 				duplas.put(i, dupla);
 		}
@@ -78,7 +78,7 @@ public class PanelVerSending extends JPanel{
 						colores.add(randomColor);
 					}
 					g2d.setColor(colores.get(i));
-					g2d.setStroke(new BasicStroke(3));
+					g2d.setStroke(new BasicStroke(2));
 					if( matriz[j][i]!= GrafoMatrizNoDirigido.INF && i!=j) {
 					g2d.drawLine(xa, ya, xd, yd);
 				    g2d.setColor(Color.RED);
