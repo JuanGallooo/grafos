@@ -44,8 +44,8 @@ public class PanelVerDark extends JPanel{
 		icono=new ImageIcon("./ArchivosDarkRoads/imagenes/bombilla.gif"); 
 		duplas= new HashMap<Vertice<String>, String>();
 		for (int i = 0; i < todas.size(); i++) {
-				int x= aleatorio.nextInt(1000)+100;
-				int y= aleatorio.nextInt(1000)+100;
+				int x= aleatorio.nextInt(650)+100;
+				int y= aleatorio.nextInt(650)+100;
 				String dupla= x+" "+y;
 				duplas.put(todas.get(i), dupla);
 		}
@@ -67,10 +67,10 @@ public class PanelVerDark extends JPanel{
 				
 				String dupla2= duplas.get(destino);
 				String[] posiciones2= dupla2.split(" ");
-				int xa= Integer.parseInt(posiciones1[0])+45;
-				int ya=Integer.parseInt(posiciones1[1])+45;
-				int xd=Integer.parseInt(posiciones2[0])+45;
-				int yd=Integer.parseInt(posiciones2[1])+45;
+				int xa= Integer.parseInt(posiciones1[0])+25;
+				int ya=Integer.parseInt(posiciones1[1])+25;
+				int xd=Integer.parseInt(posiciones2[0])+25;
+				int yd=Integer.parseInt(posiciones2[1])+25;
 				if( colores.size()<todasAristas.size()) {
 					float r = rand.nextFloat();
 					float ga = rand.nextFloat();
@@ -79,10 +79,10 @@ public class PanelVerDark extends JPanel{
 					colores.add(randomColor);
 				}
 				g2d.setColor(colores.get(j));
-				g2d.setStroke(new BasicStroke(5));
+				g2d.setStroke(new BasicStroke(3));
 			    g2d.drawLine(xa, ya, xd, yd);
 			    g2d.setColor(Color.BLACK);
-			    g.setFont( new Font( "Tahoma", Font.BOLD, 20 ) );
+			    g.setFont( new Font( "Tahoma", Font.BOLD, 15 ) );
 			    g.drawString(todasAristas.get(j).getPeso()+"", (xa+xd)/2,(ya+yd)/2);
 			}
 			for (int i = 0; i < todas.size(); i++) {
@@ -90,7 +90,7 @@ public class PanelVerDark extends JPanel{
 				String[] posiciones= dupla.split(" ");
 				g.drawImage(icono.getImage(),Integer.parseInt(posiciones[0]),Integer.parseInt(posiciones[1]), null);
 			}
-			 g.drawString(principal.getMundo().darkRoads().getSoluciones().get(indiceSolucion), 50,50);
+			 g.drawString(principal.getMundo().darkRoads().getSoluciones().get(indiceSolucion), 10,50);
 			 super.paintComponent(g);
 		setOpaque(false);
 		revalidate();

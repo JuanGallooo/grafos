@@ -37,15 +37,15 @@ public class PanelVerSending extends JPanel{
 		this.indiceSolucion=indiceSolucion;
 		
 		GrafoMatrizNoDirigido<Integer> grafo= principal.getMundo().getSending().getGrafos().get(indiceSolucion);
-		matriz= grafo.getMatriz();
+		matriz= grafo.getMatrizPeso();
 		sYt= principal.getMundo().getSending().getsYt().get(indiceSolucion);
 		Random aleatorio = new Random(System.currentTimeMillis());
 		icono=new ImageIcon("./ArchivosSendingEmails/imagenes/email2.gif"); 
 		duplas= new HashMap<Integer, String>();
 		
 		for (int i = 0; i < matriz.length; i++) {
-				int x= aleatorio.nextInt(1000)+100;
-				int y= aleatorio.nextInt(1000)+100;
+				int x= aleatorio.nextInt(600)+100;
+				int y= aleatorio.nextInt(600)+100;
 				String dupla= x+" "+y;
 				duplas.put(i, dupla);
 		}
@@ -66,10 +66,10 @@ public class PanelVerSending extends JPanel{
 					
 					String dupla2= duplas.get(j);
 					String[] posiciones2= dupla2.split(" ");
-					int xa= Integer.parseInt(posiciones1[0])+150;
-					int ya=Integer.parseInt(posiciones1[1])+100;
-					int xd=Integer.parseInt(posiciones2[0])+150;
-					int yd=Integer.parseInt(posiciones2[1])+100;
+					int xa= Integer.parseInt(posiciones1[0])+50;
+					int ya=Integer.parseInt(posiciones1[1])+50;
+					int xd=Integer.parseInt(posiciones2[0])+50;
+					int yd=Integer.parseInt(posiciones2[1])+50;
 					if( colores.size()<matriz.length) {
 						float r = rand.nextFloat();
 						float ga = rand.nextFloat();
@@ -78,16 +78,16 @@ public class PanelVerSending extends JPanel{
 						colores.add(randomColor);
 					}
 					g2d.setColor(colores.get(i));
-					g2d.setStroke(new BasicStroke(5));
+					g2d.setStroke(new BasicStroke(3));
 					if( matriz[j][i]!= GrafoMatrizNoDirigido.INF && i!=j) {
 					g2d.drawLine(xa, ya, xd, yd);
 				    g2d.setColor(Color.RED);
-				    g.setFont( new Font( "Tahoma", Font.BOLD, 20 ) );
+				    g.setFont( new Font( "Tahoma", Font.BOLD, 15 ) );
 				    g.drawString(matriz[j][i]+"", (xa+xd)/2,(ya+yd)/2);
 					}
 				}
 			}
-		    g.setFont( new Font( "Tahoma", Font.BOLD, 20 ) );
+		    g.setFont( new Font( "Tahoma", Font.BOLD, 15 ) );
 			g.setColor(Color.red);
 			for (int i = 0; i < matriz.length; i++) {
 				String dupla= duplas.get(i);
